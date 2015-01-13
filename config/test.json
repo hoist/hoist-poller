@@ -1,0 +1,11 @@
+{
+  "Hoist": {
+    "executor": {
+      "timeout": "1000",
+      "root": "/Users/amelia/Documents/executor/tests/fixtures"
+    },
+    "mongo": {
+      "db": "mongodb://localhost/hoist-default"
+    }
+  }
+}
