@@ -5,11 +5,7 @@
       "currentDirectoryName":"/poll.js"
     },
     "mongo": {
-      "db": "mongodb://localhost/hoist-poller"
-    },
-    "messageBus": {
-      "type": "sqs",
-      "concurrentMessages": 1
+      "db": "mongodb://localhost/hoist-default"
     }
   }
 }
