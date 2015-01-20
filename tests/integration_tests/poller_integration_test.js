@@ -5,6 +5,7 @@ var BBPromise = require('bluebird');
 var poller = require('../../lib/poller');
 var Model = require('hoist-model');
 var mongoose = BBPromise.promisifyAll(Model._mongoose);
+
 var config = require('config');
 
 describe('with no error in polling ', function () {
@@ -41,37 +42,53 @@ describe('with no error in polling ', function () {
         }
       }).saveAsync(),
       new Model.ConnectorSetting({
-        _id: 'connectorId',
+        _id: 'connectorKey',
         application: 'testAppId',
-        connector: 'connectorId',
+        key: 'connectorKey',
         environment: 'test',
         name: 'connector name',
         connectorType: 'test_connector',
         settings: {
           meta: {
             subscriptions: 'subscriptions'
-          }
+          },
+          clientId: '2191990946.3236346965',
+          clientSecret: '4891ea22c6647aa0982700af5b2c6ea2'
+        }
+      }).saveAsync(),
+      new Model.BouncerToken({
+        _id: "Gq5fW1QMGmilWDADNYTd",
+        application: "testAppId",
+        connectorKey: "connectorKey",
+        connectorType: "test_connector",
+        environment: "test",
+        key: "N9hNCj56Tqi1GWI6Mkdn3QTgFdKDyGaT",
+        state: {
+          token: "xoxp-2191990946-2864070152-3238438064-50a1b7",
+          code: "2191990946.3424592343.b3690b958b"
         }
       }).saveAsync(),
       new Model.Subscription({
         _id: 'subscriptionId',
         application: 'testAppId',
-        connector: 'connectorId',
-        endpoints: '/contacts',
+        connector: 'connectorKey',
+        endpoints: ['/channels.list', 'channels.list'],
         environment: 'test',
       }).saveAsync(),
       new Model.Subscription({
         _id: 'subscriptionId1',
         application: 'testAppId',
-        connector: 'connectorId',
-        endpoints: '/customers',
+        connector: 'connectorKey',
+        endpoints: '/channels.list',
         environment: 'test',
       }).saveAsync(),
       new Model.Bucket({
         _id: 'bucketId',
         application: 'testAppId',
         meta: {
-          authToken: 'token'
+          authToken: {
+            connectorKey: 'N9hNCj56Tqi1GWI6Mkdn3QTgFdKDyGaT'
+          }
         },
         environment: 'test'
       }).saveAsync()
@@ -86,6 +103,7 @@ describe('with no error in polling ', function () {
       Model.Organisation.removeAsync({}),
       Model.Application.removeAsync({}),
       Model.Bucket.removeAsync({}),
+      Model.BouncerToken.removeAsync({}),
       Model.Subscription.removeAsync({}),
       Model.ConnectorSetting.removeAsync({})
     ]).then(function () {
@@ -93,6 +111,7 @@ describe('with no error in polling ', function () {
     });
   });
   it('returns the data from poll.js', function () {
+    console.log(_response)
     expect(_response[0].isFulfilled()).to.eql(true);
   });
 });

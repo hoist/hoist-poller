@@ -4,6 +4,15 @@
       "path": "./tests/fixtures/test_connectors",
       "currentDirectoryName":"/poll.js"
     },
+    "messageBus": {
+     "type": "sqs"
+   },
+   "aws": {
+        "account": "test",
+        "secret": "test",
+        "region": "ap-southeast-2",
+        "prefix": "DEVELOPMENT_"
+      },
     "mongo": {
       "db": "mongodb://localhost/hoist-default"
     }

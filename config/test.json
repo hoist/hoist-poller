@@ -9,7 +9,7 @@
       "currentDirectoryName":"/poll.js"
     },
     "mongo": {
-      "db": "mongodb://localhost/hoist-test"
+      "db": "mongodb://localhost/hoist-default"
     }
   }
 }

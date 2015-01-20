@@ -24,6 +24,7 @@
     "gulp-mocha": "^1.1.0",
     "jshint-growl-reporter": "^0.1.1",
     "jshint-stylish": "^1.0.0",
+    "request-promise": "^0.3.2",
     "run-sequence": "^0.3.7",
     "sinon": "^1.10.3",
     "sinon-chai": "^2.5.0"
@@ -31,10 +32,12 @@
   "dependencies": {
     "bluebird": "^2.3.11",
     "config": "^1.2.0",
+    "hoist-connect": "git://github.com/hoist/hoist-connect",
+    "hoist-errors": "^1.0.0",
     "hoist-logger": "git://github.com/hoist/hoist-logger",
     "hoist-model": "git://github.com/hoist/hoist-model",
-    "hoist-connect": "git://github.com/hoist/hoist-connect",
     "lodash": "^2.4.1",
-    "moment": "^2.8.4"
+    "moment": "^2.8.4",
+    "url": "^0.10.2"
   }
 }
