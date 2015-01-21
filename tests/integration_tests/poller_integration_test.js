@@ -214,7 +214,9 @@ describe('poller', function () {
         Model.BouncerToken.removeAsync({}),
         Model.Subscription.removeAsync({}),
         Model.ConnectorSetting.removeAsync({})
-      ]);
+      ]).then(function () {
+        Model._mongoose.disconnectAsync();
+      });
     });
     it('reconnects mongoose and returns the promise', function () {
       mongoose.disconnectAsync().then(function () {
