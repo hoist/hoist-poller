@@ -110,7 +110,7 @@ describe('with no error in polling ', function () {
       return mongoose.disconnectAsync();
     });
   });
-  it('returns the data from poll.js', function () {
+  it('returns the promise', function () {
     console.log(_response)
     expect(_response[0].isFulfilled()).to.eql(true);
   });
