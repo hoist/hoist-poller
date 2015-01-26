@@ -5,11 +5,13 @@ var BBPromise = require('bluebird');
 var poller = require('../../lib/poller');
 var Model = require('hoist-model');
 var mongoose = BBPromise.promisifyAll(Model._mongoose);
+var _ = require('lodash');
 
 var config = require('config');
 describe('poller', function () {
   describe('with no connection error in polling ', function () {
     var _response;
+    var _subscription;
     var applicationEvent;
     var jobData;
     var _appUser;
@@ -74,14 +76,9 @@ describe('poller', function () {
           connector: 'connectorKey',
           endpoints: ['/channels.list', 'channels.list'],
           environment: 'test',
-        }).saveAsync(),
-        new Model.Subscription({
-          _id: 'subscriptionId1',
-          application: 'testAppId',
-          connector: 'connectorKey',
-          endpoints: '/channels.list',
-          environment: 'test',
-        }).saveAsync(),
+        }).saveAsync().then(function (sub) {
+          _subscription = sub[0];
+        }),
         new Model.Bucket({
           _id: 'bucketId',
           application: 'testAppId',
@@ -91,7 +88,8 @@ describe('poller', function () {
             }
           },
           environment: 'test'
-        }).saveAsync()
+        }).saveAsync(),
+        sinon.spy(poller, 'wrapSubscription')
       ]).then(function () {
         return poller.start().then(function (response) {
           _response = response;
@@ -105,14 +103,20 @@ describe('poller', function () {
         Model.Bucket.removeAsync({}),
         Model.BouncerToken.removeAsync({}),
         Model.Subscription.removeAsync({}),
-        Model.ConnectorSetting.removeAsync({})
+        Model.ConnectorSetting.removeAsync({}),
+        poller.wrapSubscription.restore()
       ]).then(function () {
         return mongoose.disconnectAsync();
       });
     });
     it('returns the promise', function () {
-      console.log(_response)
       expect(_response[0].isFulfilled()).to.eql(true);
+    });
+    it('adds markModified onto the wrapped subscription object', function () {
+       expect(poller.wrapSubscription.returnValues[0]).to.have.property('markModified');
+    });
+    it('adds saveAsync onto the wrapped subscription object', function () {
+       expect(poller.wrapSubscription.returnValues[0]).to.have.property('saveAsync');
     });
   });
   describe('with a connection error in polling ', function () {
@@ -182,13 +186,6 @@ describe('poller', function () {
           endpoints: ['/channels.list', 'channels.list'],
           environment: 'test',
         }).saveAsync(),
-        new Model.Subscription({
-          _id: 'subscriptionId1',
-          application: 'testAppId',
-          connector: 'connectorKey',
-          endpoints: '/channels.list',
-          environment: 'test',
-        }).saveAsync(),
         new Model.Bucket({
           _id: 'bucketId',
           application: 'testAppId',
@@ -198,7 +195,8 @@ describe('poller', function () {
             }
           },
           environment: 'test'
-        }).saveAsync()
+        }).saveAsync(),
+        sinon.spy(poller, 'wrapSubscription')
       ]).then(function () {
         return poller.start().then(function (response) {
           _response = response;
@@ -213,16 +211,22 @@ describe('poller', function () {
         Model.Bucket.removeAsync({}),
         Model.BouncerToken.removeAsync({}),
         Model.Subscription.removeAsync({}),
-        Model.ConnectorSetting.removeAsync({})
+        Model.ConnectorSetting.removeAsync({}),
+        poller.wrapSubscription.restore()
       ]).then(function () {
         Model._mongoose.disconnectAsync();
       });
     });
     it('reconnects mongoose and returns the promise', function () {
-      mongoose.disconnectAsync().then(function () {
-        console.log(_response)
+      return mongoose.disconnectAsync().then(function () {
         expect(_response[0].isFulfilled()).to.eql(true);
       })
+    });
+    it('adds markModified onto the wrapped subscription object', function () {
+       expect(poller.wrapSubscription.returnValues[0]).to.have.property('markModified');
+    });
+    it('adds saveAsync onto the wrapped subscription object', function () {
+       expect(poller.wrapSubscription.returnValues[0]).to.have.property('saveAsync');
     });
   });
 })
