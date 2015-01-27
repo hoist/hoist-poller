@@ -5,10 +5,17 @@ var BBPromise = require('bluebird');
 var poller = require('../../lib/poller');
 var Model = require('hoist-model');
 var mongoose = BBPromise.promisifyAll(Model._mongoose);
+var poll = require('../fixtures/test_connectors/test_connector/poll');
 var _ = require('lodash');
 
 var config = require('config');
 describe('poller', function () {
+  before(function () {
+    return mongoose.connectAsync(config.get('Hoist.mongo.db'))
+  })
+  after(function () {
+    return mongoose.disconnectAsync()
+  })
   describe('with no connection error in polling ', function () {
     var _response;
     var _subscription;
@@ -17,7 +24,6 @@ describe('poller', function () {
     var _appUser;
     before(function () {
       return BBPromise.all([
-        mongoose.connectAsync(config.get('Hoist.mongo.db')),
         new Model.Organisation({
           _id: 'orgid',
           name: 'test org',
@@ -89,7 +95,6 @@ describe('poller', function () {
           },
           environment: 'test'
         }).saveAsync(),
-        sinon.spy(poller, 'wrapSubscription')
       ]).then(function () {
         return poller.start().then(function (response) {
           _response = response;
@@ -103,20 +108,17 @@ describe('poller', function () {
         Model.Bucket.removeAsync({}),
         Model.BouncerToken.removeAsync({}),
         Model.Subscription.removeAsync({}),
-        Model.ConnectorSetting.removeAsync({}),
-        poller.wrapSubscription.restore()
-      ]).then(function () {
-        return mongoose.disconnectAsync();
-      });
+        Model.ConnectorSetting.removeAsync({})
+      ])
     });
     it('returns the promise', function () {
       expect(_response[0].isFulfilled()).to.eql(true);
     });
-    it('adds markModified onto the wrapped subscription object', function () {
-       expect(poller.wrapSubscription.returnValues[0]).to.have.property('markModified');
+    it('adds set onto the wrapped subscription object', function () {
+      expect(_response[0]._settledValue[0]._settledValue['2']).to.have.property('set');
     });
-    it('adds saveAsync onto the wrapped subscription object', function () {
-       expect(poller.wrapSubscription.returnValues[0]).to.have.property('saveAsync');
+    it('adds get onto the wrapped subscription object', function () {
+      expect(_response[0]._settledValue[0]._settledValue['2']).to.have.property('get');
     });
   });
   describe('with a connection error in polling ', function () {
@@ -126,7 +128,6 @@ describe('poller', function () {
     var _appUser;
     before(function () {
       return BBPromise.all([
-        mongoose.connectAsync(config.get('Hoist.mongo.db')),
         new Model.Organisation({
           _id: 'orgid',
           name: 'test org',
@@ -196,37 +197,50 @@ describe('poller', function () {
           },
           environment: 'test'
         }).saveAsync(),
-        sinon.spy(poller, 'wrapSubscription')
-      ]).then(function () {
-        return poller.start().then(function (response) {
-          _response = response;
-        });
-      });
+      ])
     });
     after(function () {
       return BBPromise.all([
-        Model._mongoose.connect(config.get('Hoist.mongo.db')),
         Model.Organisation.removeAsync({}),
         Model.Application.removeAsync({}),
         Model.Bucket.removeAsync({}),
         Model.BouncerToken.removeAsync({}),
         Model.Subscription.removeAsync({}),
-        Model.ConnectorSetting.removeAsync({}),
-        poller.wrapSubscription.restore()
-      ]).then(function () {
-        Model._mongoose.disconnectAsync();
-      });
+        Model.ConnectorSetting.removeAsync({})
+      ])
     });
-    it('reconnects mongoose and returns the promise', function () {
+    it('reconnects mongoose', function () {
       return mongoose.disconnectAsync().then(function () {
-        expect(_response[0].isFulfilled()).to.eql(true);
+        return poller.start().then(function () {
+          expect(mongoose.connection.readyState).to.eql(1);
+        });
+
       })
     });
-    it('adds markModified onto the wrapped subscription object', function () {
-       expect(poller.wrapSubscription.returnValues[0]).to.have.property('markModified');
+    it('returns the promise', function () {
+      return mongoose.disconnectAsync().then(function () {
+        return poller.start().then(function (response) {
+          _response = response;
+          expect(_response[0].isFulfilled()).to.eql(true);
+        });
+
+      })
     });
-    it('adds saveAsync onto the wrapped subscription object', function () {
-       expect(poller.wrapSubscription.returnValues[0]).to.have.property('saveAsync');
+    it('adds set onto the wrapped subscription object', function () {
+      return mongoose.disconnectAsync().then(function () {
+        return poller.start().then(function (response) {
+          _response = response;
+          expect(_response[0]._settledValue[0]._settledValue['2']).to.have.property('set');
+        });
+      });
+    });
+    it('adds get onto the wrapped subscription object', function () {
+      return mongoose.disconnectAsync().then(function () {
+        return poller.start().then(function (response) {
+          _response = response;
+          expect(_response[0]._settledValue[0]._settledValue['2']).to.have.property('get');
+        });
+      });
     });
   });
 })
