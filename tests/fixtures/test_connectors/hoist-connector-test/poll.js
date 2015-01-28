@@ -2,5 +2,5 @@
 var BBPromise = require('bluebird');
 
 module.exports = function (app, bucket, subscription, bouncer, connector) {
-  return BBPromise.resolve(arguments)
+  return subscription.eventEmitter.emit('test:modified:invoice', arguments)
 }

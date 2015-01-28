@@ -1,28 +1,22 @@
 'use strict';
 var expect = require('chai').expect;
-var sinon = require('sinon');
 var BBPromise = require('bluebird');
 var poller = require('../../lib/poller');
 var Model = require('hoist-model');
 var mongoose = BBPromise.promisifyAll(Model._mongoose);
-var poll = require('../fixtures/test_connectors/test_connector/poll');
-var _ = require('lodash');
 
 var config = require('config');
 describe('poller', function () {
   before(function () {
-    return mongoose.connectAsync(config.get('Hoist.mongo.db'))
-  })
+    return mongoose.connectAsync(config.get('Hoist.mongo.db'));
+  });
   after(function () {
-    return mongoose.disconnectAsync()
-  })
+    return mongoose.disconnectAsync();
+  });
   describe('with no connection error in polling ', function () {
     var _response;
     var _subscription;
-    var applicationEvent;
-    var jobData;
-    var _appUser;
-    before(function () {
+    before(function (done) {
       return BBPromise.all([
         new Model.Organisation({
           _id: 'orgid',
@@ -55,7 +49,7 @@ describe('poller', function () {
           key: 'connectorKey',
           environment: 'test',
           name: 'connector name',
-          connectorType: 'test_connector',
+          connectorType: 'hoist-connector-test',
           settings: {
             meta: {
               subscriptions: 'subscriptions'
@@ -68,7 +62,7 @@ describe('poller', function () {
           _id: "Gq5fW1QMGmilWDADNYTd",
           application: "testAppId",
           connectorKey: "connectorKey",
-          connectorType: "test_connector",
+          connectorType: "hoist-connector-test",
           environment: "test",
           key: "N9hNCj56Tqi1GWI6Mkdn3QTgFdKDyGaT",
           state: {
@@ -80,7 +74,7 @@ describe('poller', function () {
           _id: 'subscriptionId',
           application: 'testAppId',
           connector: 'connectorKey',
-          endpoints: ['/channels.list', 'channels.list'],
+          endpoints: ['/Invoices', 'Contacts'],
           environment: 'test',
         }).saveAsync().then(function (sub) {
           _subscription = sub[0];
@@ -98,7 +92,10 @@ describe('poller', function () {
       ]).then(function () {
         return poller.start().then(function (response) {
           _response = response;
+          done();
         });
+      }).catch(function (err) {
+        console.log('err', err);
       });
     });
     after(function () {
@@ -109,23 +106,16 @@ describe('poller', function () {
         Model.BouncerToken.removeAsync({}),
         Model.Subscription.removeAsync({}),
         Model.ConnectorSetting.removeAsync({})
-      ])
+      ]);
     });
     it('returns the promise', function () {
       expect(_response[0].isFulfilled()).to.eql(true);
     });
-    it('adds set onto the wrapped subscription object', function () {
-      expect(_response[0]._settledValue[0]._settledValue['2']).to.have.property('set');
-    });
-    it('adds get onto the wrapped subscription object', function () {
-      expect(_response[0]._settledValue[0]._settledValue['2']).to.have.property('get');
+    it('sets up a listener correctly ', function () {
+      expect(_response[0]._settledValue[0]._settledValue).to.eql(true);
     });
   });
   describe('with a connection error in polling ', function () {
-    var _response;
-    var applicationEvent;
-    var jobData;
-    var _appUser;
     before(function () {
       return BBPromise.all([
         new Model.Organisation({
@@ -159,7 +149,7 @@ describe('poller', function () {
           key: 'connectorKey',
           environment: 'test',
           name: 'connector name',
-          connectorType: 'test_connector',
+          connectorType: 'hoist-connector-test',
           settings: {
             meta: {
               subscriptions: 'subscriptions'
@@ -172,7 +162,7 @@ describe('poller', function () {
           _id: "Gq5fW1QMGmilWDADNYTd",
           application: "testAppId",
           connectorKey: "connectorKey",
-          connectorType: "test_connector",
+          connectorType: "hoist-connector-test",
           environment: "test",
           key: "N9hNCj56Tqi1GWI6Mkdn3QTgFdKDyGaT",
           state: {
@@ -184,7 +174,7 @@ describe('poller', function () {
           _id: 'subscriptionId',
           application: 'testAppId',
           connector: 'connectorKey',
-          endpoints: ['/channels.list', 'channels.list'],
+          endpoints: ['/Invoices', 'Contacts'],
           environment: 'test',
         }).saveAsync(),
         new Model.Bucket({
@@ -197,7 +187,7 @@ describe('poller', function () {
           },
           environment: 'test'
         }).saveAsync(),
-      ])
+      ]);
     });
     after(function () {
       return BBPromise.all([
@@ -207,7 +197,7 @@ describe('poller', function () {
         Model.BouncerToken.removeAsync({}),
         Model.Subscription.removeAsync({}),
         Model.ConnectorSetting.removeAsync({})
-      ])
+      ]);
     });
     it('reconnects mongoose', function () {
       return mongoose.disconnectAsync().then(function () {
@@ -215,32 +205,22 @@ describe('poller', function () {
           expect(mongoose.connection.readyState).to.eql(1);
         });
 
-      })
+      });
     });
     it('returns the promise', function () {
       return mongoose.disconnectAsync().then(function () {
         return poller.start().then(function (response) {
-          _response = response;
-          expect(_response[0].isFulfilled()).to.eql(true);
+          expect(response[0].isFulfilled()).to.eql(true);
         });
 
-      })
-    });
-    it('adds set onto the wrapped subscription object', function () {
-      return mongoose.disconnectAsync().then(function () {
-        return poller.start().then(function (response) {
-          _response = response;
-          expect(_response[0]._settledValue[0]._settledValue['2']).to.have.property('set');
-        });
       });
     });
-    it('adds get onto the wrapped subscription object', function () {
+    it('sets up a listener correctly', function () {
       return mongoose.disconnectAsync().then(function () {
         return poller.start().then(function (response) {
-          _response = response;
-          expect(_response[0]._settledValue[0]._settledValue['2']).to.have.property('get');
+          expect(response[0]._settledValue[0]._settledValue).to.eql(true);
         });
       });
     });
   });
-})
+});
