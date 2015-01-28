@@ -39,11 +39,11 @@ describe('SubscriptionController', function () {
       expect(_subscription.endpoints).to.have.members(_subscriptionModel.endpoints);
       expect(_subscription.environment).to.eql(_subscriptionModel.environment);
     });
-    it('creates a get function', function () {
-      expect(_subscription.get).to.exist;
+    it('creates a get function on the subscription', function () {
+      expect(typeof _subscription.get).to.eql('function');
     });
-    it('creates a get function', function () {
-      expect(_subscription.set).to.exist;
+    it('creates a get function on the subscription', function () {
+      expect(typeof _subscription.set).to.eql('function');
     });
   });
   describe('#GET', function () {
