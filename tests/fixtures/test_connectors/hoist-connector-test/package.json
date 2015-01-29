@@ -1,0 +1,11 @@
+{
+  "name": "test_connector",
+  "version": "1.0.0",
+  "description": "A test connector",
+  "main": "./lib/connector.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Hoist Apps Ltd",
+  "license": "MIT"
+}

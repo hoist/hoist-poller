@@ -1,24 +1,20 @@
 {
   "Hoist": {
-    "executor": {
-      "root": "/Users/amelia/Documents/executor/tests/fixtures",
-      "timeout": "5000"
-    },
-    "mongo": {
-      "db": "mongodb://localhost/hoist-default"
+    "connectors": {
+      "path": "./tests/fixtures/test_connectors",
+      "currentDirectoryName":"/lib/poll.js"
     },
     "messageBus": {
-      "type": "sqs",
-      "concurrentMessages": 1
-    },
-    "aws": {
-      "account": "awsaccount",
-      "secret": "secret",
-      "region": "ap-southeast-2",
-      "prefix": "DEVELOPMENT_"
-    },
-    "data": {
-      "checkAuth": false
+     "type": "sqs"
+   },
+   "aws": {
+        "account": "test",
+        "secret": "test",
+        "region": "ap-southeast-2",
+        "prefix": "DEVELOPMENT_"
+      },
+    "mongo": {
+      "db": "mongodb://localhost/hoist-default"
     }
   }
 }

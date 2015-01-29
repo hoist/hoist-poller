@@ -18,7 +18,7 @@ var globs = {
 function runJshint() {
   return gulp.src(
       globs.js.lib.concat(
-        globs.js.gulpfile)
+        globs.js.gulpfile.concat(globs.js.specs))
     )
     .pipe(jshint())
     .pipe(jshint.reporter('jshint-stylish'))
@@ -74,7 +74,7 @@ gulp.task('enforce-coverage', ['mocha-server'], function () {
       statements: 80,
       branches: 80,
       lines: 80,
-      functions: 80
+      functions: 70
     },
     coverageDirectory: 'coverage',
     rootDirectory: process.cwd()

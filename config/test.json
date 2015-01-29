@@ -4,6 +4,10 @@
       "timeout": "1000",
       "root": "/Users/amelia/Documents/executor/tests/fixtures"
     },
+    "connectors": {
+      "path": "./tests/fixtures/test_connectors",
+      "currentDirectoryName":"/lib/poll.js"
+    },
     "mongo": {
       "db": "mongodb://localhost/hoist-default"
     }
