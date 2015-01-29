@@ -14,4 +14,4 @@ deployment:
     branch: master
     commands:
       - git submodule add git@github.com:hoist/deploy.git
-      - cd deploy && bundle install && bundle exec cap executor_servers deploy
+      - cd deploy && bundle install && bundle exec cap task_servers deploy
