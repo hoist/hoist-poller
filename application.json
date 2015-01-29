@@ -1,0 +1,13 @@
+[{
+  "name": "hoist-poller",
+  "script": "./app.js",
+  "cwd": "./",
+  "error_file": "/var/log/node/hoist-poller.stderr.log",
+  "out_file": "/var/log/node/hoist-poller.stdout.log",
+  "instances": "1",
+  "merge_logs": true,
+  "exec_mode": "fork_mode",
+  "env": {
+    "NODE_ENV": "production"
+  }
+}]

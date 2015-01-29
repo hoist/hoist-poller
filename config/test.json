@@ -6,7 +6,7 @@
     },
     "connectors": {
       "path": "./tests/fixtures/test_connectors",
-      "currentDirectoryName":"/lib/poll.js"
+      "currentDirectoryName":""
     },
     "mongo": {
       "db": "mongodb://localhost/hoist-default"
