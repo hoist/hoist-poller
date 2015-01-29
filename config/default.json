@@ -2,7 +2,7 @@
   "Hoist": {
     "connectors": {
       "path": "./tests/fixtures/test_connectors",
-      "currentDirectoryName":"/lib/poll.js"
+      "currentDirectoryName":""
     },
     "messageBus": {
      "type": "sqs"
