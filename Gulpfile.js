@@ -74,7 +74,7 @@ gulp.task('enforce-coverage', ['mocha-server'], function () {
       statements: 80,
       branches: 80,
       lines: 80,
-      functions: 80
+      functions: 70
     },
     coverageDirectory: 'coverage',
     rootDirectory: process.cwd()
