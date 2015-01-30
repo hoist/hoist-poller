@@ -56,6 +56,7 @@ describe('poller', function () {
             meta: {
               subscriptions: 'subscriptions'
             },
+            authType: 'Private',
             clientId: '2191990946.3236346965',
             clientSecret: '4891ea22c6647aa0982700af5b2c6ea2'
           }
@@ -114,7 +115,7 @@ describe('poller', function () {
       expect(_response[0].isFulfilled()).to.eql(true);
     });
     it('sets up a listener correctly ', function () {
-      expect(_response[0]._settledValue[0]._settledValue).to.eql(true);
+      expect(_response[0]._settledValue).to.eql(true);
     });
   });
   describe('with a connection error in polling ', function () {
@@ -156,6 +157,7 @@ describe('poller', function () {
             meta: {
               subscriptions: 'subscriptions'
             },
+            authType: 'Private',
             clientId: '2191990946.3236346965',
             clientSecret: '4891ea22c6647aa0982700af5b2c6ea2'
           }
@@ -220,7 +222,7 @@ describe('poller', function () {
     it('sets up a listener correctly', function () {
       return mongoose.disconnectAsync().then(function () {
         return poller.start().then(function (response) {
-          expect(response[0]._settledValue[0]._settledValue).to.eql(true);
+          expect(response[0]._settledValue).to.eql(true);
         });
       });
     });
@@ -266,6 +268,7 @@ describe('poller', function () {
             meta: {
               subscriptions: 'subscriptions'
             },
+            authType: 'Private',
             clientId: '2191990946.3236346965',
             clientSecret: '4891ea22c6647aa0982700af5b2c6ea2'
           }
