@@ -6,7 +6,7 @@ var poller = require('../../lib/poller');
 poller.stopped = true;
 var Model = require('hoist-model');
 var mongoose = BBPromise.promisifyAll(Model._mongoose);
-
+// add amazon config details to work properly
 var config = require('config');
 describe('poller', function () {
   before(function () {
@@ -61,6 +61,22 @@ describe('poller', function () {
             clientSecret: '4891ea22c6647aa0982700af5b2c6ea2'
           }
         }).saveAsync(),
+        new Model.ConnectorSetting({
+          _id: 'connectorKey2',
+          application: 'testAppId',
+          key: 'connectorKey2',
+          environment: 'test',
+          name: 'connector name',
+          connectorType: 'hoist-connector-test',
+          settings: {
+            meta: {
+              subscriptions: 'subscriptions'
+            },
+            authType: 'Private',
+            clientId: '2191990946.3236346965',
+            clientSecret: '4891ea22c6647aa0982700af5b2c6ea2'
+          }
+        }).saveAsync(),
         new Model.BouncerToken({
           _id: "Gq5fW1QMGmilWDADNYTd",
           application: "testAppId",
@@ -77,6 +93,15 @@ describe('poller', function () {
           _id: 'subscriptionId',
           application: 'testAppId',
           connector: 'connectorKey',
+          endpoints: ['Invoices', 'Contacts'],
+          environment: 'test',
+        }).saveAsync().then(function (sub) {
+          _subscription = sub[0];
+        }),
+        new Model.Subscription({
+          _id: 'subscriptionId2',
+          application: 'testAppId',
+          connector: 'connectorKey2',
           endpoints: ['Invoices', 'Contacts'],
           environment: 'test',
         }).saveAsync().then(function (sub) {
@@ -114,9 +139,6 @@ describe('poller', function () {
     it('returns the promise', function () {
       expect(_response[0].isFulfilled()).to.eql(true);
     });
-    it('sets up a listener correctly ', function () {
-      expect(_response[0]._settledValue).to.eql(true);
-    });
   });
   describe('with a connection error in polling ', function () {
     before(function () {
@@ -150,6 +172,22 @@ describe('poller', function () {
           _id: 'connectorKey',
           application: 'testAppId',
           key: 'connectorKey',
+          environment: 'test',
+          name: 'connector name',
+          connectorType: 'hoist-connector-test',
+          settings: {
+            meta: {
+              subscriptions: 'subscriptions'
+            },
+            authType: 'Private',
+            clientId: '2191990946.3236346965',
+            clientSecret: '4891ea22c6647aa0982700af5b2c6ea2'
+          }
+        }).saveAsync(),
+        new Model.ConnectorSetting({
+          _id: 'connectorKey2',
+          application: 'testAppId',
+          key: 'connectorKey2',
           environment: 'test',
           name: 'connector name',
           connectorType: 'hoist-connector-test',
@@ -219,13 +257,6 @@ describe('poller', function () {
 
       });
     });
-    it('sets up a listener correctly', function () {
-      return mongoose.disconnectAsync().then(function () {
-        return poller.start().then(function (response) {
-          expect(response[0]._settledValue).to.eql(true);
-        });
-      });
-    });
   });
   describe('with invalid connector path ', function () {
     var _response;
@@ -289,6 +320,15 @@ describe('poller', function () {
           _id: 'subscriptionId',
           application: 'testAppId',
           connector: 'connectorKey',
+          endpoints: ['Invoices', 'Contacts'],
+          environment: 'test',
+        }).saveAsync().then(function (sub) {
+          _subscription = sub[0];
+        }),
+        new Model.Subscription({
+          _id: 'subscriptionId2',
+          application: 'testAppId',
+          connector: 'connectorKey2',
           endpoints: ['Invoices', 'Contacts'],
           environment: 'test',
         }).saveAsync().then(function (sub) {
