@@ -279,5 +279,13 @@ describe('PollerService', function () {
       return expect(EventPipeline.prototype.raise)
         .to.have.been.calledWith('eventName', payload);
     });
+    it('sets hoistcontext correctly', function () {
+      return require('hoist-context')
+        .get().then(function (hoistContext) {
+          return expect(hoistContext.application).to.eql(context.application) &&
+            expect(hoistContext.environment).to.eql('live') &&
+            expect(hoistContext.bucket).to.eql(context.bucket);
+        });
+    });
   });
 });
