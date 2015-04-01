@@ -42,6 +42,7 @@
     "hoist-model": "git://github.com/hoist/hoist-model",
     "lodash": "^2.4.1",
     "moment": "^2.8.4",
+    "throat": "^2.0.2",
     "url": "^0.10.2"
   }
 }
