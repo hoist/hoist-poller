@@ -114,6 +114,7 @@ describe('PollerService', function () {
   });
   describe('#loadSubscriptions', function () {
     var subscription = new Subscription({
+      _id: 'subscriptionid',
       meta: {
         subscription: 1
       }
@@ -141,6 +142,10 @@ describe('PollerService', function () {
       return expect(Subscription.findOneAndUpdate)
         .to.have.been.calledWith({
           $and: [{
+            _id: {
+              $nin: []
+            }
+          }, {
             $or: [{
               active: false
             }, {
