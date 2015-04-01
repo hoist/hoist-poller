@@ -34,6 +34,8 @@
     "bluebird": "^2.3.11",
     "broker": "git://github.com/hoist/broker",
     "config": "^1.2.0",
+    "hoist-connector-pipeline": "git://github.com/hoist/hoist-connector-pipeline",
+    "hoist-context": "git://github.com/hoist/hoist-context",
     "hoist-errors": "git://github.com/hoist/hoist-errors",
     "hoist-events-pipeline": "git://github.com/hoist/hoist-events-pipeline",
     "hoist-logger": "git://github.com/hoist/hoist-logger",

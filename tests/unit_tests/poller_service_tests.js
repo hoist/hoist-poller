@@ -8,7 +8,11 @@ var model = require('hoist-model');
 var Subscription = model.Subscription;
 var ConnectorSetting = model.ConnectorSetting;
 var Bucket = model.Bucket;
+var Application = model.Application;
 var SubscriptionWrapper = require('../../lib/subscription_wrapper');
+var testPoller = require('../fixtures/test_connectors/hoist-connector-test/lib/poll');
+var BouncerToken = model.BouncerToken;
+var EventPipeline = require('hoist-events-pipeline').Pipeline;
 
 describe('PollerService', function () {
   describe('#start', function () {
@@ -212,6 +216,68 @@ describe('PollerService', function () {
     });
   });
   describe('#pollContext', function () {
-
+    var pollerService = new PollerService();
+    var context = {
+      connectorSettings: {
+        connectorType: 'hoist-connector-test',
+        key: 'test-connector'
+      },
+      application: new Application()
+    };
+    var bucket = new Bucket({
+      meta: {
+        authToken: {
+          'test-connector': 'bouncerToken'
+        }
+      }
+    });
+    var bouncerToken = {};
+    before(function () {
+      sinon.stub(BouncerToken, 'findOneAsync').returns(BBPromise.resolve(bouncerToken));
+      sinon.stub(testPoller, 'process').returns(BBPromise.resolve(null));
+      sinon.stub(pollerService, 'raiseEvent').returns(null);
+      pollerService.pollContext(context, bucket);
+    });
+    after(function () {
+      testPoller.process.restore();
+      BouncerToken.findOneAsync.restore();
+    });
+    it('calls poller for connector', function () {
+      return expect(testPoller.process)
+        .to.have.been.called;
+    });
+    it('sends a raise event callback', function () {
+      var payload = {
+        payload: true
+      };
+      testPoller.process.getCall(0).args[1].call(null, 'eventname', payload);
+      return expect(pollerService.raiseEvent)
+        .to.have.been.calledWith(testPoller.process.getCall(0).args[0], 'eventname', payload);
+    });
+  });
+  describe('#raiseEvent', function () {
+    var pollerService = new PollerService();
+    var payload = {
+      payload: true
+    };
+    var context = {
+      bucket: {
+        bucket: true
+      },
+      application: {
+        application: true
+      }
+    };
+    before(function () {
+      sinon.stub(EventPipeline.prototype, 'raise').returns(BBPromise.resolve(null));
+      pollerService.raiseEvent(context, 'eventName', payload);
+    });
+    after(function () {
+      EventPipeline.prototype.raise.restore();
+    });
+    it('raises event', function () {
+      return expect(EventPipeline.prototype.raise)
+        .to.have.been.calledWith('eventName', payload);
+    });
   });
 });
