@@ -112,11 +112,15 @@ describe('PollerService', function () {
     });
   });
   describe('#loadSubscriptions', function () {
-    var subscriptions = [{
-      subscription: 1
-    }, {
-      subscription: 2
-    }];
+    var subscriptions = [new Subscription({
+      meta: {
+        subscription: 1
+      }
+    }), new Subscription({
+      meta: {
+        subscription: 2
+      }
+    })];
     var _result;
     var mockQuery = {
       populate: sinon.stub(),
@@ -149,7 +153,8 @@ describe('PollerService', function () {
       application: {
         _id: 'application'
       },
-      connector: 'connector'
+      connector: 'connector',
+      toObject: sinon.stub().returnsThis()
     };
     var connectorSetting = {
       key: 'connector'
