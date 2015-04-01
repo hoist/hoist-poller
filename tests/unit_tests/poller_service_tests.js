@@ -13,6 +13,7 @@ var SubscriptionWrapper = require('../../lib/subscription_wrapper');
 var testPoller = require('../fixtures/test_connectors/hoist-connector-test/lib/poll');
 var BouncerToken = model.BouncerToken;
 var EventPipeline = require('hoist-events-pipeline').Pipeline;
+var moment = require('moment');
 
 describe('PollerService', function () {
   describe('#start', function () {
@@ -112,40 +113,64 @@ describe('PollerService', function () {
     });
   });
   describe('#loadSubscriptions', function () {
-    var subscriptions = [new Subscription({
+    var subscription = new Subscription({
       meta: {
         subscription: 1
       }
-    }), new Subscription({
-      meta: {
-        subscription: 2
-      }
-    })];
+    });
     var _result;
     var mockQuery = {
       populate: sinon.stub(),
       exec: sinon.stub()
     };
+    var clock;
     before(function () {
+      clock = sinon.useFakeTimers();
       mockQuery.populate.returnsThis();
-      mockQuery.exec.returns(BBPromise.resolve(subscriptions));
+      mockQuery.exec.returns(BBPromise.resolve(subscription));
       var pollerService = new PollerService();
-      sinon.stub(Subscription, 'find').returns(mockQuery);
+      sinon.stub(Subscription, 'findOneAndUpdate').returns(mockQuery);
       _result = pollerService.loadSubscriptions();
+
     });
     after(function () {
-      Subscription.find.restore();
+      clock.restore();
+      Subscription.findOneAndUpdate.restore();
     });
     it('loads all subscriptions from the database', function () {
-      return expect(Subscription.find)
-        .to.have.been.calledWith({});
+      return expect(Subscription.findOneAndUpdate)
+        .to.have.been.calledWith({
+          $and: [{
+            $or: [{
+              active: false
+            }, {
+              active: {
+                $exists: false
+              }
+            }]
+          }, {
+            $or: [{
+              nextPoll: {
+                $lt: moment().utc().toDate()
+              }
+            }, {
+              nextPoll: {
+                $exists: false
+              }
+            }]
+          }]
+        }, {
+          $set: {
+            active: true
+          }
+        });
     });
     it('should populate application', function () {
       return expect(mockQuery.populate)
         .to.have.been.calledWith('application');
     });
     it('returns subscriptions', function () {
-      return expect(_result).to.become(subscriptions);
+      return expect(_result).to.become([subscription]);
     });
   });
   describe('#pollSubscriptions', function () {
