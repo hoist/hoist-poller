@@ -8,10 +8,10 @@ var shutdown = function () {
   }, 2000);
   console.log('shutting down execution agent');
   process.nextTick(function () {
-    poller.stop()
-      clearTimeout(timeout);
-      console.log('shutdown complete');
-      process.exit(0);
+    poller.stop();
+    clearTimeout(timeout);
+    console.log('shutdown complete');
+    process.exit(0);
   });
 };
 
@@ -21,7 +21,8 @@ process.on('message', function (msg) {
     shutdown();
   }
 });
-
+process.on('SIGTERM', shutdown);
+process.on('SIGINT', shutdown);
 
 poller.start();
 console.log('started');
