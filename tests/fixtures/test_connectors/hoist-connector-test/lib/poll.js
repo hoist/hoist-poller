@@ -1,8 +1,10 @@
 'use strict';
-var BBPromise = require('bluebird');
 
-module.exports = function (app, subscription, connector, bouncer) {
-  var eventName = connector.key + ':modified:invoice';
-  subscription.eventEmitter.emit(eventName, {key: 'value'});
-  return subscription.eventEmitter.emit('done');
-}
+
+module.exports = function () {
+  return module.exports.process.apply(this,Array.prototype.slice.apply(arguments));
+};
+
+module.exports.process = function () {
+  console.log('expect this method to be stubbed');
+};
