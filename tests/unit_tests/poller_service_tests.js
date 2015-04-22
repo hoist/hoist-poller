@@ -257,6 +257,9 @@ describe('PollerService', function () {
         connectorType: 'hoist-connector-test',
         key: 'test-connector'
       },
+      subscription: {
+        _id: 'subscription'
+      },
       application: new Application()
     };
     var bucket = new Bucket({
