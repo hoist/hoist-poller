@@ -1,26 +1,26 @@
 'use strict';
-require('../bootstrap');
-var PollerService = require('../../lib/poller_service');
-var sinon = require('sinon');
-var BBPromise = require('bluebird');
-var expect = require('chai').expect;
-var model = require('hoist-model');
-var Subscription = model.Subscription;
-var ConnectorSetting = model.ConnectorSetting;
-var Bucket = model.Bucket;
-var Application = model.Application;
-var SubscriptionWrapper = require('../../lib/subscription_wrapper');
-var testPoller = require('../fixtures/test_connectors/hoist-connector-test/lib/poll');
-var BouncerToken = model.BouncerToken;
-var EventPipeline = require('hoist-events-pipeline').Pipeline;
-var moment = require('moment');
+import PollerService from '../../lib/poller_service';
+import sinon from 'sinon';
+import {
+  expect
+}
+from 'chai';
+import {
+  Subscription, ConnectorSetting, Bucket, Application, BouncerToken
+}
+from '@hoist/model';
+import SubscriptionWrapper from '../../lib/subscription_wrapper';
+import testPoller from '../fixtures/test_connectors/hoist-connector-test/lib/poll';
+import EventPipeline from '@hoist/events-pipeline';
+import moment from 'moment';
+import Bluebird from 'bluebird';
 
 describe('PollerService', function () {
   describe('#start', function () {
 
     var pollerService = new PollerService();
     before(function () {
-      sinon.stub(pollerService, 'poll').returns(BBPromise.delay(2000));
+      sinon.stub(pollerService, 'poll').returns(Bluebird.delay(2000));
       return pollerService.start();
     });
     it('marks service as running', function () {
@@ -48,11 +48,10 @@ describe('PollerService', function () {
       pollerService.running = true;
 
       function loop() {
-        return BBPromise.try(function () {
-          return BBPromise.delay(2000);
-        }).then(function () {
-          return loop();
-        });
+        return Bluebird.delay(2000)
+          .then(function () {
+            return loop();
+          });
       }
       pollerService.loop = loop().cancellable().catch(function (err) {
         _error = err;
@@ -64,7 +63,7 @@ describe('PollerService', function () {
       return expect(pollerService.running).to.be.false;
     });
     it('cancels loop', function () {
-      return expect(_error).to.be.instanceOf(BBPromise.CancellationError);
+      return expect(_error).to.be.instanceOf(Bluebird.CancellationError);
     });
     it('deletes loop', function () {
       return expect(pollerService.loop).to.not.exist;
@@ -77,15 +76,15 @@ describe('PollerService', function () {
     var _subscription2 = {
       subscription: 2
     };
-    var _promise;
     var pollerService = new PollerService();
     var _polled = 0;
+
     before(function (done) {
       pollerService.running = true;
-      sinon.stub(pollerService, 'loadSubscriptions').returns(BBPromise.try(function () {
+      sinon.stub(pollerService, 'loadSubscriptions').returns(Bluebird.resolve().then(function () {
         return [_subscription1, _subscription2];
       }));
-      sinon.stub(pollerService, 'pollSubscription').returns(BBPromise.try(function () {
+      sinon.stub(pollerService, 'pollSubscription').returns(Bluebird.resolve().then(function () {
         return true;
       }));
       pollerService.originalPoll = pollerService.poll;
@@ -97,7 +96,7 @@ describe('PollerService', function () {
           return this.originalPoll();
         }
       });
-      _promise = pollerService.poll();
+      return pollerService.poll();
     });
     it('loads all subscriptions', function () {
       return expect(pollerService.loadSubscriptions)
@@ -128,7 +127,7 @@ describe('PollerService', function () {
     before(function () {
       clock = sinon.useFakeTimers();
       mockQuery.populate.returnsThis();
-      mockQuery.exec.returns(BBPromise.resolve(subscription));
+      mockQuery.exec.returns(Promise.resolve(subscription));
       var pollerService = new PollerService();
       sinon.stub(Subscription, 'findOneAndUpdate').returns(mockQuery);
       _result = pollerService.loadSubscriptions();
@@ -202,11 +201,11 @@ describe('PollerService', function () {
         context.buckets === buckets;
     });
     before(function () {
-      sinon.stub(ConnectorSetting, 'findOneAsync').returns(BBPromise.resolve(connectorSetting));
-      sinon.stub(Bucket, 'findAsync').returns(BBPromise.resolve(buckets));
+      sinon.stub(ConnectorSetting, 'findOneAsync').returns(Promise.resolve(connectorSetting));
+      sinon.stub(Bucket, 'findAsync').returns(Promise.resolve(buckets));
 
-      sinon.stub(pollerService, 'pollContext').returns(BBPromise.resolve(null));
-      sinon.stub(SubscriptionWrapper.prototype, 'save').returns(BBPromise.resolve(null));
+      sinon.stub(pollerService, 'pollContext').returns(Promise.resolve(null));
+      sinon.stub(SubscriptionWrapper.prototype, 'save').returns(Promise.resolve(null));
       pollerService.pollSubscription(subscription);
     });
     after(function () {
@@ -271,8 +270,8 @@ describe('PollerService', function () {
     });
     var bouncerToken = {};
     before(function () {
-      sinon.stub(BouncerToken, 'findOneAsync').returns(BBPromise.resolve(bouncerToken));
-      sinon.stub(testPoller, 'process').returns(BBPromise.resolve(null));
+      sinon.stub(BouncerToken, 'findOneAsync').returns(Promise.resolve(bouncerToken));
+      sinon.stub(testPoller, 'process').returns(Promise.resolve(null));
       sinon.stub(pollerService, 'raiseEvent').returns(null);
       pollerService.pollContext(context, bucket);
     });
@@ -307,7 +306,7 @@ describe('PollerService', function () {
       }
     };
     before(function () {
-      sinon.stub(EventPipeline.prototype, 'raise').returns(BBPromise.resolve(null));
+      sinon.stub(EventPipeline.prototype, 'raise').returns(Promise.resolve(null));
       pollerService.raiseEvent(context, 'eventName', payload);
     });
     after(function () {
@@ -315,15 +314,11 @@ describe('PollerService', function () {
     });
     it('raises event', function () {
       return expect(EventPipeline.prototype.raise)
-        .to.have.been.calledWith('eventName', payload);
-    });
-    it('sets hoistcontext correctly', function () {
-      return require('hoist-context')
-        .get().then(function (hoistContext) {
-          return expect(hoistContext.application).to.eql(context.application) &&
-            expect(hoistContext.environment).to.eql('live') &&
-            expect(hoistContext.bucket).to.eql(context.bucket);
-        });
+        .to.have.been.calledWith({
+          application: context.application,
+          bucket: context.bucket,
+          environment: 'live'
+        }, 'eventName', payload);
     });
   });
 });

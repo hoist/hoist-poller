@@ -1,10 +1,14 @@
 'use strict';
-require('../bootstrap');
-var Subscription = require('hoist-model').Subscription;
-var SubscriptionWrapper = require('../../lib/subscription_wrapper');
-var expect = require('chai').expect;
-var sinon = require('sinon');
-var BBPromise = require('bluebird');
+import {
+  Subscription
+}
+from '@hoist/model';
+import SubscriptionWrapper from '../../lib/subscription_wrapper';
+import {
+  expect
+}
+from 'chai';
+import sinon from 'sinon';
 
 describe('SubscriptionWrapper', function () {
   var subscriptionWrapper;
@@ -52,7 +56,7 @@ describe('SubscriptionWrapper', function () {
         }
       });
       subscriptionWrapper = new SubscriptionWrapper(subscription);
-      sinon.stub(subscription, 'saveAsync').returns(BBPromise.resolve(null));
+      sinon.stub(subscription, 'saveAsync').returns(Promise.resolve(null));
       return subscriptionWrapper.save();
     });
     after(function () {
