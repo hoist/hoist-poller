@@ -10,7 +10,7 @@ import {
 }
 from '@hoist/model';
 import SubscriptionWrapper from '../../lib/subscription_wrapper';
-import testPoller from '../fixtures/test_connectors/hoist-connector-test/lib/poll';
+import testPoller from '../fixtures/test_connectors/hoist-connector-test/current/lib/poll';
 import EventPipeline from '@hoist/events-pipeline';
 import moment from 'moment';
 import Bluebird from 'bluebird';
