@@ -337,6 +337,36 @@ window.esdocSearchIndex = [
   ],
   [
     "",
+    "test-file/tests/integration_tests/poller_integration_tests.js.html#lineNumber22",
+    "Integration",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/integration_tests/poller_integration_tests.js.html#lineNumber23",
+    "Integration Polling a Subscription",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/integration_tests/poller_integration_tests.js.html#lineNumber74",
+    "Integration Polling a Subscription after poll has run",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/integration_tests/poller_integration_tests.js.html#lineNumber96",
+    "Integration Polling a Subscription after poll has run passes settings to poll",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/integration_tests/poller_integration_tests.js.html#lineNumber91",
+    "Integration Polling a Subscription after poll has run should mark subscription inactive",
+    "test"
+  ],
+  [
+    "",
     "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber18",
     "PollerService",
     "test"
@@ -391,19 +421,19 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber252",
+    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber253",
     "PollerService #pollContext",
     "test"
   ],
   [
     "",
-    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber282",
+    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber283",
     "PollerService #pollContext calls poller for connector",
     "test"
   ],
   [
     "",
-    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber286",
+    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber287",
     "PollerService #pollContext sends a raise event callback",
     "test"
   ],
@@ -415,49 +445,49 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber224",
+    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber225",
     "PollerService #pollSubscriptions loads buckets that have correct authentication tokens",
     "test"
   ],
   [
     "",
-    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber216",
+    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber217",
     "PollerService #pollSubscriptions loads connector settings",
     "test"
   ],
   [
     "",
-    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber234",
+    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber235",
     "PollerService #pollSubscriptions polls every bucket",
     "test"
   ],
   [
     "",
-    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber243",
+    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber244",
     "PollerService #pollSubscriptions polls the correct number of times",
     "test"
   ],
   [
     "",
-    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber239",
+    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber240",
     "PollerService #pollSubscriptions polls without a bucket",
     "test"
   ],
   [
     "",
-    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber247",
+    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber248",
     "PollerService #pollSubscriptions saves the subscription",
     "test"
   ],
   [
     "",
-    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber295",
+    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber296",
     "PollerService #raiseEvent",
     "test"
   ],
   [
     "",
-    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber315",
+    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber316",
     "PollerService #raiseEvent raises event",
     "test"
   ],
@@ -616,6 +646,12 @@ window.esdocSearchIndex = [
     "class/lib/subscription_wrapper.js~SubscriptionWrapper.html#instance-method-set",
     "lib/subscription_wrapper.js~SubscriptionWrapper#set",
     "method"
+  ],
+  [
+    "tests/integration_tests/poller_integration_tests.js",
+    "test-file/tests/integration_tests/poller_integration_tests.js.html",
+    "tests/integration_tests/poller_integration_tests.js",
+    "testFile"
   ],
   [
     "tests/unit_tests/poller_service_tests.js",

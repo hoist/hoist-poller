@@ -183,7 +183,8 @@ describe('PollerService', function () {
         _id: 'application'
       },
       connector: 'connector',
-      toObject: sinon.stub().returnsThis()
+      toObject: sinon.stub().returnsThis(),
+      markModified: sinon.stub()
     };
     var connectorSetting = {
       key: 'connector'
@@ -206,7 +207,7 @@ describe('PollerService', function () {
 
       sinon.stub(pollerService, 'pollContext').returns(Promise.resolve(null));
       sinon.stub(SubscriptionWrapper.prototype, 'save').returns(Promise.resolve(null));
-      pollerService.pollSubscription(subscription);
+      return pollerService.pollSubscription(subscription);
     });
     after(function () {
       ConnectorSetting.findOneAsync.restore();

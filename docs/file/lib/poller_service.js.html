@@ -256,7 +256,6 @@ class PollerService {
           }, &apos;adding poll for bucket&apos;);
           return this.pollContext(context, bucket);
         }, this)));
-        console.log(&apos;polling&apos;);
         polls.push(this.pollContext(context).catch((err) =&gt; {
           console.log(err);
           this._logger.error(err);
@@ -280,6 +279,7 @@ class PollerService {
           application: subscription.application._id
         }, &apos;saving updates to subscription&apos;);
         context.subscription._subscription.active = false;
+        context.subscription._subscription.markModified(&apos;active&apos;);
         return context.subscription.save();
       });
   }
