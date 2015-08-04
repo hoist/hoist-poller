@@ -1,9 +1,10 @@
 'use strict';
+require('babel/register');
 var PollerService = require('./lib/poller_service.js');
 var BBPromise = require('bluebird');
-var mongoose = BBPromise.promisifyAll(require('hoist-model')._mongoose);
+var mongoose = BBPromise.promisifyAll(require('@hoist/model')._mongoose);
 var config = require('config');
-var logger = require('hoist-logger');
+var logger = require('@hoist/logger');
 process.title = 'poller' + process.pid;
 
 var pollerService = new PollerService();
@@ -23,7 +24,7 @@ process.on('SIGINT', shutdown);
 process.on('SIGTERM', shutdown);
 
 logger.info('connecting to mongo');
-mongoose.connectAsync(config.get('Hoist.mongo.db'))
+mongoose.connectAsync(config.get('Hoist.mongo.core.connectionString'))
   .then(function () {
     logger.info('starting poller');
     return pollerService.start();

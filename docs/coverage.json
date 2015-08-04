@@ -1,0 +1,11 @@
+{
+  "coverage": "0%",
+  "expectCount": 8,
+  "actualCount": 0,
+  "files": {
+    "lib/subscription_wrapper.js": {
+      "expectCount": 8,
+      "actualCount": 0
+    }
+  }
+}

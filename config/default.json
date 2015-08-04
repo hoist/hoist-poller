@@ -1,20 +1,26 @@
 {
   "Hoist": {
-    "connectors": {
-      "path": "./tests/fixtures/test_connectors",
-      "currentDirectoryName":""
+    "application": {
+      "name": "hoist-poller"
     },
-    "messageBus": {
-     "type": "sqs"
-   },
-   "aws": {
-        "account": "test",
-        "secret": "test",
-        "region": "ap-southeast-2",
-        "prefix": "DEVELOPMENT_"
-      },
+    "rabbit": {
+      "url": "amqp://rabbitmq",
+      "managementurl": "http://guest:guest@rabbitmq:15672/"
+    },
+    "publisher": {
+      "heartbeat": 60,
+      "timeout": 120000
+    },
     "mongo": {
-      "db": "mongodb://localhost/hoist-default"
-    }
+      "core": {
+        "connectionString": "mongodb://db/hoist-default"
+      }
+    },
+    "filePaths": {
+      "repositories": "/shares/repos",
+      "deploys": "/shares/deploys",
+      "connectors": "/shares/connectors"
+    },
+    "debug": true
   }
 }

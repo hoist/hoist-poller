@@ -1,0 +1,9 @@
+web:
+  build: .
+  external_links:
+    - hoist_db_1:db
+    - hoist_rabbitmq_1:rabbitmq
+  environment:
+   - NODE_ENV=development
+  volumes_from:
+    - hoist_config_1

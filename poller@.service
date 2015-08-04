@@ -1,0 +1,17 @@
+[Unit]
+Description=poller service
+After=config.service
+
+[Service]
+User=core
+Restart=always
+ExecStartPre=-/usr/bin/docker kill poller-%i
+ExecStartPre=-/usr/bin/docker rm poller-%i
+ExecStartPre=-/usr/bin/docker pull quay.io/hoist/poller:master
+ExecStart=/usr/bin/docker run --name poller-%i  -e "SERVICE_TAGS=nodejs,poller,production" -e "SERVICE_NAME=poller" -e "NODE_ENV=production" --volumes-from config -P quay.io/hoist/poller:master
+ExecStop=/usr/bin/docker stop poller-%i
+TimeoutStartSec=30m
+
+[X-Fleet]
+Conflicts=poller@*.service
+MachineMetadata=container_type=web
