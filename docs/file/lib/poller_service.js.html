@@ -138,7 +138,7 @@ class PollerService {
         /* istanbul ignore else */
         if (this.running) {
           this._logger.info(&apos;pausing&apos;);
-          return Bluebird.delay(15000)
+          return Bluebird.delay(5000)
             .cancellable()
             .bind(this)
             .then(() =&gt; {
