@@ -118,7 +118,11 @@ class PollerService {
       //for each
       .then((subscriptions) =&gt; {
         this._logger.debug({
-          subscriptions: subscriptions
+          subscriptions: subscriptions.map((subscription) =&gt; {
+            if (subscription) {
+              return subscription._id;
+            }
+          })
         }, &apos;polling each subscription&apos;);
         return _.map(subscriptions, throat(1, _.bind((subscription) =&gt; {
           return this.pollSubscription(subscription);
@@ -134,7 +138,7 @@ class PollerService {
         /* istanbul ignore else */
         if (this.running) {
           this._logger.info(&apos;pausing&apos;);
-          return Bluebird.delay(1000)
+          return Bluebird.delay(15000)
             .cancellable()
             .bind(this)
             .then(() =&gt; {
@@ -212,14 +216,15 @@ class PollerService {
           application: context.application._id,
           environment: &apos;live&apos;
         }).then((connectorSettings) =&gt; {
+          this._logger.info({
+            connectorSetting: connectorSettings._id
+          }, &apos;loaded connector settings&apos;);
           context.connectorSettings = connectorSettings;
           return context;
         });
       })
       .then((context) =&gt; {
-        this._logger.debug({
-          context: context
-        }, &apos;setting context&apos;);
+        this._logger.debug(&apos;setting context&apos;);
         //load buckets
         //load bouncer tokens based on buckets
         var query = {

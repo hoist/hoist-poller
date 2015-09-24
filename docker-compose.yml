@@ -4,6 +4,6 @@ web:
     - hoist_db_1:db
     - hoist_rabbitmq_1:rabbitmq
   environment:
-   - NODE_ENV=development
+   - NODE_ENV=docker
   volumes_from:
     - hoist_config_1

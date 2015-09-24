@@ -22,8 +22,8 @@ dependencies:
   override:
     - mkdir -p ~/docker
     - if [[ -e ~/docker/poller.tar ]]; then docker load -i ~/docker/poller.tar; fi
-    - docker build -t quay.io/hoist/poller:${CIRCLE_BRANCH//feature\//} .
-    - docker save "quay.io/hoist/poller" > ~/docker/poller.tar
+    - docker build -t hoist/poller:${CIRCLE_BRANCH//feature\//} .
+    - docker save "hoist/poller" > ~/docker/poller.tar
 test:
   override:
     - docker kill mongodb; true;
@@ -34,7 +34,7 @@ test:
     - docker rm poller-test; true;
     - docker run -d --name mongodb mongo
     - docker run -d -e RABBITMQ_NODENAME=rabbitmq --name rabbitmq rabbitmq:3-management
-    - docker run -t --link mongodb:db --link rabbitmq:rabbitmq --name poller-test --entrypoint gulp quay.io/hoist/poller:${CIRCLE_BRANCH//feature\//} test
+    - docker run -t --link mongodb:db --link rabbitmq:rabbitmq --name poller-test --entrypoint gulp hoist/poller:${CIRCLE_BRANCH//feature\//} test
   post:
     - docker cp poller-test:/usr/src/app/coverage ~/
 general:
@@ -49,8 +49,8 @@ deployment:
     owner: hoist
     commands:
       - echo ${DOCKER_CONFIG} > .dockercfg
-      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS quay.io
-      - docker push quay.io/hoist/poller:${CIRCLE_BRANCH//feature\//}
+      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+      - docker push hoist/poller:${CIRCLE_BRANCH//feature\//}
 notify:
   webhooks:
     - url: https://overlord.hoist.io/api/webhook/circleci?api_token=xc1zrzacmxp9samlj9nya4gzay

@@ -78,7 +78,7 @@ describe('PollerService', function () {
     };
     var pollerService = new PollerService();
     var _polled = 0;
-
+    this.timeout(20000);
     before(function (done) {
       pollerService.running = true;
       sinon.stub(pollerService, 'loadSubscriptions').returns(Bluebird.resolve().then(function () {

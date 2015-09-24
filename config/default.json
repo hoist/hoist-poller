@@ -21,6 +21,9 @@
       "deploys": "/shares/deploys",
       "connectors": "/shares/connectors"
     },
+    "log": {
+      "hub": true
+    },
     "debug": true
   }
 }
