@@ -9,6 +9,9 @@
     },
     "mongo": {
       "db": "mongodb://localhost/hoist-default"
+    },
+    "log": {
+      "hub": false
     }
   }
 }
