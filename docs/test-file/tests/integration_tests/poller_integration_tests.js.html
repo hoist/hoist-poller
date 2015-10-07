@@ -122,7 +122,7 @@ describe(&apos;Integration&apos;, () =&gt; {
         Application.removeAsync({}),
         ConnectorSetting.removeAsync({}),
         Subscription.removeAsync({})
-      ]).then(()=&gt;{
+      ]).then(() =&gt; {
         return _mongoose.disconnectAsync();
       });
     });
@@ -147,6 +147,12 @@ describe(&apos;Integration&apos;, () =&gt; {
         return Subscription.findOneAsync({}).then((subscription) =&gt; {
           return expect(subscription.active).to.be.false;
         });
+      });
+      it(&apos;passes application to poll&apos;, () =&gt; {
+        return expect(recievedSettings[0].application._id).to.eql(&apos;app&apos;);
+      });
+      it(&apos;passes oranisation to poll&apos;, () =&gt; {
+        return expect(recievedSettings[0].organisation._id).to.eql(&apos;org&apos;);
       });
       it(&apos;passes settings to poll&apos;, () =&gt; {
         return expect(recievedSettings[0].settings.something).to.eql(true);

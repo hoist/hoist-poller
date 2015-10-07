@@ -61,7 +61,7 @@ import {
 }
 from &apos;chai&apos;;
 import {
-  Subscription, ConnectorSetting, Bucket, Application, BouncerToken
+  Subscription, ConnectorSetting, Bucket, Application, BouncerToken, Organisation
 }
 from &apos;@hoist/model&apos;;
 import SubscriptionWrapper from &apos;../../lib/subscription_wrapper&apos;;
@@ -315,7 +315,8 @@ describe(&apos;PollerService&apos;, function () {
       subscription: {
         _id: &apos;subscription&apos;
       },
-      application: new Application()
+      application: new Application(),
+      organisation: new Organisation()
     };
     var bucket = new Bucket({
       meta: {

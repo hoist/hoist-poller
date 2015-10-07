@@ -356,6 +356,18 @@ window.esdocSearchIndex = [
   [
     "",
     "test-file/tests/integration_tests/poller_integration_tests.js.html#lineNumber96",
+    "Integration Polling a Subscription after poll has run passes application to poll",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/integration_tests/poller_integration_tests.js.html#lineNumber99",
+    "Integration Polling a Subscription after poll has run passes oranisation to poll",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/integration_tests/poller_integration_tests.js.html#lineNumber102",
     "Integration Polling a Subscription after poll has run passes settings to poll",
     "test"
   ],
@@ -427,13 +439,13 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber283",
+    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber284",
     "PollerService #pollContext calls poller for connector",
     "test"
   ],
   [
     "",
-    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber287",
+    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber288",
     "PollerService #pollContext sends a raise event callback",
     "test"
   ],
@@ -481,13 +493,13 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber296",
+    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber297",
     "PollerService #raiseEvent",
     "test"
   ],
   [
     "",
-    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber316",
+    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber317",
     "PollerService #raiseEvent raises event",
     "test"
   ],

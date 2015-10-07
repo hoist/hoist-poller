@@ -56,7 +56,7 @@
 <pre class="source-code line-number"><code class="prettyprint linenums" data-ice="content">&apos;use strict&apos;;
 import _ from &apos;lodash&apos;;
 import {
-  Subscription, Bucket, BouncerToken, ConnectorSetting
+  Subscription, Bucket, BouncerToken, ConnectorSetting, Application
 }
 from &apos;@hoist/model&apos;;
 import SubscriptionWrapper from &apos;./subscription_wrapper&apos;;
@@ -116,6 +116,13 @@ class PollerService {
       .cancellable()
       .bind(this)
       //for each
+      .then((subscriptions) =&gt; {
+        return Promise.all(subscriptions.map((subscription) =&gt; {
+          return Application.populateAsync(subscription.application, &apos;organisation&apos;);
+        })).then(() =&gt; {
+          return subscriptions;
+        });
+      })
       .then((subscriptions) =&gt; {
         this._logger.debug({
           subscriptions: subscriptions.map((subscription) =&gt; {
@@ -186,7 +193,8 @@ class PollerService {
           active: true
         }
       })
-      .populate(&apos;application&apos;);
+      .populate(&apos;application&apos;)
+      .populate(&apos;applicaiton.organisation&apos;);
     return Bluebird.resolve(query.exec()).then((result) =&gt; {
       if (!result) {
         this.polledSubscriptions = [];
@@ -205,9 +213,9 @@ class PollerService {
         //wrap subscription
         var context = {
           subscription: new SubscriptionWrapper(subscription),
-          application: subscription.application
+          application: subscription.application,
+          organisation: subscription.application.organisation
         };
-
         return context;
       })
       .then((context) =&gt; {
@@ -323,7 +331,8 @@ class PollerService {
           settings: context.connectorSettings.settings,
           connectorKey: context.connectorSettings.key,
           subscription: context.subscription,
-          application: context.application.toObject()
+          application: context.application.toObject(),
+          organisation: context.organisation.toObject()
         };
         if (bouncerToken) {
           this._logger.info(&apos;setting auth&apos;);
