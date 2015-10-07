@@ -2,7 +2,6 @@
 
 
 module.exports = function () {
-  console.log('inside poll');
   return module.exports.process.apply(this,Array.prototype.slice.apply(arguments));
 };
 

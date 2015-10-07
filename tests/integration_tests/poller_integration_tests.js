@@ -67,7 +67,7 @@ describe('Integration', () => {
         Application.removeAsync({}),
         ConnectorSetting.removeAsync({}),
         Subscription.removeAsync({})
-      ]).then(()=>{
+      ]).then(() => {
         return _mongoose.disconnectAsync();
       });
     });
@@ -92,6 +92,12 @@ describe('Integration', () => {
         return Subscription.findOneAsync({}).then((subscription) => {
           return expect(subscription.active).to.be.false;
         });
+      });
+      it('passes application to poll', () => {
+        return expect(recievedSettings[0].application._id).to.eql('app');
+      });
+      it('passes oranisation to poll', () => {
+        return expect(recievedSettings[0].organisation._id).to.eql('org');
       });
       it('passes settings to poll', () => {
         return expect(recievedSettings[0].settings.something).to.eql(true);
