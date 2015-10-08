@@ -118,7 +118,9 @@ class PollerService {
       //for each
       .then((subscriptions) =&gt; {
         return Promise.all(subscriptions.map((subscription) =&gt; {
-          return Application.populateAsync(subscription.application, &apos;organisation&apos;);
+          if (subscription) {
+            return Application.populateAsync(subscription.application, &apos;organisation&apos;);
+          }
         })).then(() =&gt; {
           return subscriptions;
         });
