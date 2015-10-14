@@ -112,11 +112,15 @@ class PollerService {
   poll() {
     //load subscriptions
     this._logger.info(&apos;loading subscriptions&apos;);
+    let subscriptionLoaded = false;
     return this.loadSubscriptions()
       .cancellable()
       .bind(this)
       //for each
       .then((subscriptions) =&gt; {
+        if (subscriptions &amp;&amp; _.filter(subscriptions).length &gt; 0) {
+          subscriptionLoaded = true;
+        }
         return Promise.all(subscriptions.map((subscription) =&gt; {
           if (subscription) {
             return Application.populateAsync(subscription.application, &apos;organisation&apos;);
@@ -147,7 +151,12 @@ class PollerService {
         /* istanbul ignore else */
         if (this.running) {
           this._logger.info(&apos;pausing&apos;);
-          return Bluebird.delay(5000)
+          let delay = 5000;
+          if (subscriptionLoaded) {
+            delay = 10;
+            subscriptionLoaded = false;
+          }
+          return Bluebird.delay(delay)
             .cancellable()
             .bind(this)
             .then(() =&gt; {
