@@ -135,7 +135,7 @@ class PollerService {
             }, &apos;polling each subscription&apos;);
             return _.map(subscriptions, throat(1, _.bind((subscription) =&gt; {
               return this.pollSubscription(subscription);
-            }, this))).catch();
+            }, this)));
           })
           //poll subscription
           .then((pollPromises) =&gt; {
