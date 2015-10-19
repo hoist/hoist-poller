@@ -122,55 +122,57 @@ class PollerService {
           subscriptionLoaded = true;
         }
         return Promise.all(subscriptions.map((subscription) =&gt; {
-          if (subscription) {
-            return Application.populateAsync(subscription.application, &apos;organisation&apos;);
-          }
-        })).then(() =&gt; {
-          return subscriptions;
-        });
-      })
-      .then((subscriptions) =&gt; {
-        this._logger.debug({
-          subscriptions: subscriptions.map((subscription) =&gt; {
             if (subscription) {
-              return subscription._id;
+              return Application.populateAsync(subscription.application, &apos;organisation&apos;);
             }
+          })).then(() =&gt; {
+            this._logger.debug({
+              subscriptions: subscriptions.map((subscription) =&gt; {
+                if (subscription) {
+                  return subscription._id;
+                }
+              })
+            }, &apos;polling each subscription&apos;);
+            return _.map(subscriptions, throat(1, _.bind((subscription) =&gt; {
+              return this.pollSubscription(subscription);
+            }, this))).catch();
           })
-        }, &apos;polling each subscription&apos;);
-        return _.map(subscriptions, throat(1, _.bind((subscription) =&gt; {
-          return this.pollSubscription(subscription);
-        }, this)));
-      })
-      //poll subscription
-      .then((pollPromises) =&gt; {
-        this._logger.info(&apos;settling all polls&apos;);
-        return Bluebird.settle(pollPromises).cancellable();
-      })
-      .then(() =&gt; {
-        //loop
-        /* istanbul ignore else */
-        if (this.running) {
-          this._logger.info(&apos;pausing&apos;);
-          let delay = 5000;
-          if (subscriptionLoaded) {
-            delay = 10;
-            subscriptionLoaded = false;
-          }
-          return Bluebird.delay(delay)
-            .cancellable()
-            .bind(this)
-            .then(() =&gt; {
-              this._logger.info(&apos;looping&apos;);
-              return this.poll();
-            });
-        } else {
-          this._logger.info(&apos;poller stopped so stopping&apos;);
-        }
+          //poll subscription
+          .then((pollPromises) =&gt; {
+            this._logger.info(&apos;settling all polls&apos;);
+            return Bluebird.settle(pollPromises).cancellable();
+          })
+          .then(() =&gt; {
+            //loop
+            /* istanbul ignore else */
+            if (this.running) {
+              this._logger.info(&apos;pausing&apos;);
+              let delay = 5000;
+              if (subscriptionLoaded) {
+                delay = 10;
+                subscriptionLoaded = false;
+              }
+              return Bluebird.delay(delay)
+                .cancellable()
+                .bind(this)
+                .then(() =&gt; {
+                  this._logger.info(&apos;looping&apos;);
+                  return this.poll();
+                });
+            } else {
+              this._logger.info(&apos;poller stopped so stopping&apos;);
+            }
+          }).catch((err) =&gt; {
+            this._logger.error(err, &apos;error during poll loop&apos;);
+            return Promise.all(subscriptions.map((subscription) =&gt; {
+              subscription.active = false;
+              subscription.markModiled(&apos;active&apos;);
+              subscription.save();
+            }));
+          });
       }).catch((err) =&gt; {
         this._logger.error(err, &apos;error during poll loop&apos;);
       });
-
-
   }
   loadSubscriptions() {
 

@@ -28,6 +28,6 @@ USER hoist
 
 #start with nodemon monitoring the config directory
 ENTRYPOINT ["nodemon", "--exitcrash", "--watch", "/config", "--exec"]
-
+EXPOSE 28692
 #start the web app
 CMD [ "./scripts/start.sh"]

@@ -11,7 +11,7 @@
       "db": "mongodb://localhost/hoist-default"
     },
     "log": {
-      "hub": false
+      "hub": true
     }
   }
 }
