@@ -85,7 +85,7 @@ class PollerService {
     //mark as running
     this.running = true;
     //start poll
-    this._logger.info(&apos;starting loop&apos;);
+    this._logger.debug(&apos;starting loop&apos;);
     this.loop = this.poll().cancellable();
   }
   stop() {
@@ -97,7 +97,7 @@ class PollerService {
       /* istanbul ignore else */
       if (this.loop) {
         if (this.loop.isCancellable()) {
-          this._logger.info(&apos;cancelling loop&apos;);
+          this._logger.debug(&apos;cancelling loop&apos;);
           this.loop.cancel();
         } else {
           this._logger.warn(&apos;loop isn\&apos;t cancellable for some reason&apos;);
@@ -237,7 +237,7 @@ class PollerService {
           application: context.application._id,
           environment: &apos;live&apos;
         }).then((connectorSettings) =&gt; {
-          this._logger.info({
+          this._logger.debug({
             connectorSetting: connectorSettings._id
           }, &apos;loaded connector settings&apos;);
           context.connectorSettings = connectorSettings;
@@ -256,13 +256,13 @@ class PollerService {
         query[&apos;meta.authToken.&apos; + context.connectorSettings.key] = {
           $exists: true
         };
-        this._logger.info({
+        this._logger.debug({
           subscription: subscription._id,
           application: subscription.application._id
         }, &apos;finding all auth buckets&apos;);
         return Bucket.findAsync(query)
           .then((buckets) =&gt; {
-            this._logger.info({
+            this._logger.debug({
               buckets: _.pluck(buckets, &apos;_id&apos;)
             }, &apos;found buckets&apos;);
             context.buckets = buckets;
@@ -271,13 +271,13 @@ class PollerService {
       }).then((context) =&gt; {
         //for each bouncer token
         //poll subscription
-        this._logger.info({
+        this._logger.debug({
           subscription: subscription._id,
           application: subscription.application._id,
           buckets: _.pluck(context.buckets, &apos;_id&apos;)
         }, &apos;polling all buckets&apos;);
         var polls = _.map(context.buckets, throat(4, _.bind((bucket) =&gt; {
-          this._logger.info({
+          this._logger.desbug({
             bucket: bucket._id
           }, &apos;adding poll for bucket&apos;);
           return this.pollContext(context, bucket);
@@ -290,7 +290,7 @@ class PollerService {
           polls, context
         };
       }).then((result) =&gt; {
-        this._logger.info({
+        this._logger.debug({
           subscription: subscription._id,
           application: subscription.application._id
         }, &apos;settling root poll calls&apos;);
@@ -311,7 +311,7 @@ class PollerService {
   }
 
   pollContext(context, bucket) {
-    this._logger.info({
+    this._logger.debug({
       subscription: context.subscription._id,
       application: context.application._id,
       bucket: bucket ? bucket._id : /* istanbul ignore next */ null
@@ -348,11 +348,11 @@ class PollerService {
           organisation: context.organisation.toObject()
         };
         if (bouncerToken) {
-          this._logger.info(&apos;setting auth&apos;);
+          this._logger.debug(&apos;setting auth&apos;);
           pollContext.authorization = new Authorization(bouncerToken);
         }
         if (bucket) {
-          this._logger.info(&apos;setting bucket&apos;);
+          this._logger.debug(&apos;setting bucket&apos;);
           pollContext.bucket = bucket.toObject();
         }
         this._logger.info({
@@ -377,7 +377,7 @@ class PollerService {
       eventName: eventName,
       payload: payload
     }, &apos;raising event&apos;);
-    this._logger.info({
+    this._logger.debug({
       eventName: eventName,
       application: context.application._id
     }, &apos;raising event&apos;);
