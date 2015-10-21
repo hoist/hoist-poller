@@ -8,8 +8,14 @@ var config = require('config');
 var logger = require('@hoist/logger');
 process.title = 'poller' + process.pid;
 var pollerService = new PollerService();
+var spawn = require('child_process').spawn;
+
+var loggerHub = spawn('bunyansub', ['-o', 'long', '--color', '-l', 'INFO'], {
+  stdio: 'inherit'
+});
 
 function shutdown() {
+  loggerHub.kill();
   logger.info('stopping poller');
   pollerService.stop()
     .then(function () {
