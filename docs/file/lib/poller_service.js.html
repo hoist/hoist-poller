@@ -277,7 +277,7 @@ class PollerService {
           buckets: _.pluck(context.buckets, &apos;_id&apos;)
         }, &apos;polling all buckets&apos;);
         var polls = _.map(context.buckets, throat(4, _.bind((bucket) =&gt; {
-          this._logger.desbug({
+          this._logger.debug({
             bucket: bucket._id
           }, &apos;adding poll for bucket&apos;);
           return this.pollContext(context, bucket);
