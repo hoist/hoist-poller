@@ -8,7 +8,7 @@ Restart=always
 ExecStartPre=-/usr/bin/docker kill poller-%i
 ExecStartPre=-/usr/bin/docker rm poller-%i
 ExecStartPre=-/usr/bin/docker pull hoist/poller:master
-ExecStart=/usr/bin/docker run --name poller-%i -m 700M -e "SERVICE_TAGS=nodejs,poller,production" -e "SERVICE_NAME=poller" -e "NODE_ENV=production" --volumes-from config -P hoist/poller:master
+ExecStart=/usr/bin/docker run --name poller-%i -m 700M --cpu-period=100000 --cpu-quota=25000 -e "SERVICE_TAGS=nodejs,poller,production" -e "SERVICE_NAME=poller" -e "NODE_ENV=production" --volumes-from config -P hoist/poller:master
 ExecStop=/usr/bin/docker stop poller-%i
 TimeoutStartSec=30m
 
