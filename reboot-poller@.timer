@@ -1,0 +1,14 @@
+[Unit]
+Description=Reboot Poller-%i every 2 hours
+After=docker.service
+Requires=docker.service
+After=poller@%i.service
+Requires=poller@%i.service
+
+[Timer]
+OnBootSec=1h
+# Time between running each consecutive time
+OnUnitActiveSec=2h
+
+[X-Fleet]
+MachineOf=poller@%i.service
