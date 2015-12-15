@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">tests/integration_tests/poller_integration_tests.js | API Document</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  
+  
+</head>
+<body class="layout-container">
+
+<header>
+  <a href="./">Home</a>
+  <a href="identifiers.html">Identifier</a>
+  <a href="source.html">Source</a>
+  <a href="test.html" data-ice="testLink">Test</a>
+  <a data-ice="repoURL" href="https://github.com/hoist/hoist-poller.git" class="repo-url-github">Repository</a>
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div data-ice="classWrap">
+  <h2>Class</h2>
+  <ul>
+    
+  <li data-ice="classDoc"><span><a href="class/lib/subscription_wrapper.js~SubscriptionWrapper.html">SubscriptionWrapper</a></span></li>
+</ul>
+</div>
+
+
+
+
+
+<div data-ice="variableWrap">
+  <h2><a href="variable/">Variable</a></h2>
+  <ul>
+    
+  <li data-ice="variableDoc"><span><a href="variable/index.html#static-variable-subscriptionWrapper">subscriptionWrapper</a></span></li>
+</ul>
+</div>
+
+
+
+
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">tests/integration_tests/poller_integration_tests.js</h1>
+<pre class="source-code line-number"><code class="prettyprint linenums" data-ice="content">&apos;use strict&apos;;
+import PollerService from &apos;../../lib/poller_service&apos;;
+import Bluebird from &apos;bluebird&apos;;
+import config from &apos;config&apos;;
+import sinon from &apos;sinon&apos;;
+import pollMethod from &apos;../fixtures/test_connectors/hoist-connector-test/current/lib/poll&apos;;
+import {
+  expect
+}
+from &apos;chai&apos;;
+import {
+  Organisation,
+  Application,
+  ConnectorSetting,
+  Subscription,
+  _mongoose
+}
+from &apos;@hoist/model&apos;;
+
+
+Bluebird.promisifyAll(_mongoose);
+describe(&apos;Integration&apos;, () =&gt; {
+  describe(&apos;Polling a Subscription&apos;, () =&gt; {
+    before(() =&gt; {
+      return _mongoose.connectAsync(config.get(&apos;Hoist.mongo.core.connectionString&apos;))
+        .then(() =&gt; {
+          return Promise.all([
+            new Organisation({
+              _id: &apos;org&apos;,
+              name: &apos;test-org&apos;,
+              slug: &apos;org&apos;
+            }).saveAsync(),
+            new Application({
+              _id: &apos;app&apos;,
+              name: &apos;test-app&apos;,
+              slug: &apos;app&apos;,
+              organisation: &apos;org&apos;
+            }).saveAsync(),
+            new ConnectorSetting({
+              _id: &apos;connector&apos;,
+              application: &apos;app&apos;,
+              environment: &apos;live&apos;,
+              name: &apos;test-connector&apos;,
+              connectorType: &apos;hoist-connector-test&apos;,
+              settings: {
+                something: true
+              },
+              key: &apos;test-connector-key&apos;
+            }).saveAsync(),
+            new Subscription({
+              _id: &apos;subscription&apos;,
+              connector: &apos;test-connector-key&apos;,
+              endpoints: [&apos;enpoint1&apos;],
+              application: &apos;app&apos;,
+              environment: &apos;live&apos;,
+              nextPoll: new Date()
+            }).saveAsync()
+          ]).catch((err) =&gt; {
+            console.log(err);
+            throw err;
+          });
+        });
+    });
+    after(() =&gt; {
+      return Promise.all([
+        Organisation.removeAsync({}),
+        Application.removeAsync({}),
+        ConnectorSetting.removeAsync({}),
+        Subscription.removeAsync({})
+      ]).then(() =&gt; {
+        return _mongoose.disconnectAsync();
+      });
+    });
+    describe(&apos;after poll has run&apos;, function () {
+      this.timeout(5000);
+      let pollerService;
+      let recievedSettings;
+      before(() =&gt; {
+        sinon.stub(pollMethod, &apos;process&apos;, (...settings) =&gt; {
+          recievedSettings = settings;
+          return Promise.resolve();
+        });
+        pollerService = new PollerService();
+        return Promise.resolve(pollerService.start())
+          .then(() =&gt; {
+            return Bluebird.delay(2000);
+          }).then(() =&gt; {
+            return pollerService.stop();
+          });
+      });
+      it(&apos;should mark subscription inactive&apos;, () =&gt; {
+        return Subscription.findOneAsync({}).then((subscription) =&gt; {
+          return expect(subscription.active).to.be.false;
+        });
+      });
+      it(&apos;passes application to poll&apos;, () =&gt; {
+        return expect(recievedSettings[0].application._id).to.eql(&apos;app&apos;);
+      });
+      it(&apos;passes oranisation to poll&apos;, () =&gt; {
+        return expect(recievedSettings[0].organisation._id).to.eql(&apos;org&apos;);
+      });
+      it(&apos;passes settings to poll&apos;, () =&gt; {
+        return expect(recievedSettings[0].settings.something).to.eql(true);
+      });
+      after(() =&gt; {
+        pollMethod.process.restore();
+      });
+    });
+  });
+});
+</code></pre>
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(0.1.4)</span></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

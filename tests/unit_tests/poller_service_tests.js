@@ -6,7 +6,12 @@ import {
 }
 from 'chai';
 import {
-  Subscription, ConnectorSetting, Bucket, Application, BouncerToken, Organisation
+  Subscription,
+  ConnectorSetting,
+  Bucket,
+  Application,
+  BouncerToken,
+  Organisation
 }
 from '@hoist/model';
 import SubscriptionWrapper from '../../lib/subscription_wrapper';
@@ -21,6 +26,7 @@ describe('PollerService', function () {
     var pollerService = new PollerService();
     before(function () {
       sinon.stub(pollerService, 'poll').returns(Bluebird.delay(2000));
+      sinon.stub(Subscription, 'updateAsync').returns(Promise.resolve());
       return pollerService.start();
     });
     it('marks service as running', function () {
@@ -39,6 +45,7 @@ describe('PollerService', function () {
     });
     after(function () {
       pollerService.poll.restore();
+      Subscription.updateAsync.restore();
     });
   });
   describe('#stop', function () {
