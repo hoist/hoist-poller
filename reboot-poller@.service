@@ -8,7 +8,7 @@ Requires=poller@%i.service
 [Service]
 Type=oneshot
 TimeoutStartSec=20m
-ExecStart=/bin/sh -c "docker kill poller-%i"
+ExecStart=/bin/sh -c "docker stop poller-%i"
 
 [X-Fleet]
 MachineOf=poller@%i.service
