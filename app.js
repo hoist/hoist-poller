@@ -1,7 +1,7 @@
 'use strict';
 process.env.MUTE_LOGS = true;
-require('babel/register');
-var PollerService = require('./lib/poller_service.js');
+require('babel-register');
+var PollerService = require('./lib/poller_service.js').default;
 var BBPromise = require('bluebird');
 var mongoose = BBPromise.promisifyAll(require('@hoist/model')._mongoose);
 var config = require('config');

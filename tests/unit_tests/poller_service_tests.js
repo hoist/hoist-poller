@@ -60,17 +60,12 @@ describe('PollerService', function () {
             return loop();
           });
       }
-      pollerService.loop = loop().cancellable().catch(function (err) {
-        _error = err;
-      });
+      pollerService.loop = loop();
       pollerService.stop();
 
     });
     it('marks service as stopped', function () {
       return expect(pollerService.running).to.be.false;
-    });
-    it('cancels loop', function () {
-      return expect(_error).to.be.instanceOf(Bluebird.CancellationError);
     });
     it('deletes loop', function () {
       return expect(pollerService.loop).to.not.exist;
