@@ -6,12 +6,6 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
-    "hoist-poller/lib/subscription_wrapper.js~subscriptionwrapper",
-    "variable/index.html#static-variable-subscriptionWrapper",
-    "<span>subscriptionWrapper</span> <span class=\"search-result-import-path\">hoist-poller/lib/subscription_wrapper.js</span>",
-    "variable"
-  ],
-  [
     "builtinexternal/ecmascriptexternal.js~array",
     "external/index.html",
     "BuiltinExternal/ECMAScriptExternal.js~Array",
@@ -294,6 +288,12 @@ window.esdocSearchIndex = [
     "external"
   ],
   [
+    "builtinexternal/webapiexternal.js~audiocontext",
+    "external/index.html",
+    "BuiltinExternal/WebAPIExternal.js~AudioContext",
+    "external"
+  ],
+  [
     "builtinexternal/webapiexternal.js~canvasrenderingcontext2d",
     "external/index.html",
     "BuiltinExternal/WebAPIExternal.js~CanvasRenderingContext2D",
@@ -385,121 +385,121 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber121",
+    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber116",
     "PollerService #loadSubscriptions",
     "test"
   ],
   [
     "",
-    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber147",
+    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber142",
     "PollerService #loadSubscriptions loads all subscriptions from the database",
     "test"
   ],
   [
     "",
-    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber183",
+    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber178",
     "PollerService #loadSubscriptions returns subscriptions",
     "test"
   ],
   [
     "",
-    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber179",
+    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber174",
     "PollerService #loadSubscriptions should populate application",
     "test"
   ],
   [
     "",
-    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber79",
+    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber74",
     "PollerService #poll",
     "test"
   ],
   [
     "",
-    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber108",
+    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber103",
     "PollerService #poll loads all subscriptions",
     "test"
   ],
   [
     "",
-    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber117",
+    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber112",
     "PollerService #poll loops",
     "test"
   ],
   [
     "",
-    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber112",
+    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber107",
     "PollerService #poll polls each subscription",
     "test"
   ],
   [
     "",
-    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber260",
+    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber255",
     "PollerService #pollContext",
     "test"
   ],
   [
     "",
-    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber291",
+    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber286",
     "PollerService #pollContext calls poller for connector",
     "test"
   ],
   [
     "",
-    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber295",
+    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber290",
     "PollerService #pollContext sends a raise event callback",
     "test"
   ],
   [
     "",
-    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber187",
+    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber182",
     "PollerService #pollSubscriptions",
     "test"
   ],
   [
     "",
-    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber232",
+    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber227",
     "PollerService #pollSubscriptions loads buckets that have correct authentication tokens",
     "test"
   ],
   [
     "",
-    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber224",
+    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber219",
     "PollerService #pollSubscriptions loads connector settings",
     "test"
   ],
   [
     "",
-    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber242",
+    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber237",
     "PollerService #pollSubscriptions polls every bucket",
     "test"
   ],
   [
     "",
-    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber251",
+    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber246",
     "PollerService #pollSubscriptions polls the correct number of times",
     "test"
   ],
   [
     "",
-    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber247",
+    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber242",
     "PollerService #pollSubscriptions polls without a bucket",
     "test"
   ],
   [
     "",
-    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber255",
+    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber250",
     "PollerService #pollSubscriptions saves the subscription",
     "test"
   ],
   [
     "",
-    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber304",
+    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber299",
     "PollerService #raiseEvent",
     "test"
   ],
   [
     "",
-    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber324",
+    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber319",
     "PollerService #raiseEvent raises event",
     "test"
   ],
@@ -541,19 +541,13 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber72",
-    "PollerService #stop cancels loop",
-    "test"
-  ],
-  [
-    "",
-    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber75",
+    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber70",
     "PollerService #stop deletes loop",
     "test"
   ],
   [
     "",
-    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber69",
+    "test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber67",
     "PollerService #stop marks service as stopped",
     "test"
   ],
@@ -640,12 +634,6 @@ window.esdocSearchIndex = [
     "class/lib/subscription_wrapper.js~SubscriptionWrapper.html#instance-method-get",
     "lib/subscription_wrapper.js~SubscriptionWrapper#get",
     "method"
-  ],
-  [
-    "lib/subscription_wrapper.js~subscriptionwrapper#key",
-    "class/lib/subscription_wrapper.js~SubscriptionWrapper.html#instance-member-key",
-    "lib/subscription_wrapper.js~SubscriptionWrapper#key",
-    "member"
   ],
   [
     "lib/subscription_wrapper.js~subscriptionwrapper#save",

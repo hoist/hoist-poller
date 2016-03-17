@@ -9,12 +9,14 @@
   <script src="script/prettify/prettify.js"></script>
   
   
+  <script src="script/manual.js"></script>
 </head>
-<body class="layout-container">
+<body class="layout-container" data-ice="rootContainer">
 
 <header>
   <a href="./">Home</a>
-  <a href="identifiers.html">Identifier</a>
+  
+  <a href="identifiers.html">Reference</a>
   <a href="source.html">Source</a>
   <a href="test.html" data-ice="testLink">Test</a>
   <a data-ice="repoURL" href="https://github.com/hoist/hoist-poller.git" class="repo-url-github">Repository</a>
@@ -27,29 +29,12 @@
   </div>
 </header>
 
-<nav class="navigation" data-ice="nav"><div data-ice="classWrap">
-  <h2>Class</h2>
+<nav class="navigation" data-ice="nav"><div>
   <ul>
     
-  <li data-ice="classDoc"><span><a href="class/lib/subscription_wrapper.js~SubscriptionWrapper.html">SubscriptionWrapper</a></span></li>
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/subscription_wrapper.js~SubscriptionWrapper.html">SubscriptionWrapper</a></span></span></li>
 </ul>
 </div>
-
-
-
-
-
-<div data-ice="variableWrap">
-  <h2><a href="variable/">Variable</a></h2>
-  <ul>
-    
-  <li data-ice="variableDoc"><span><a href="variable/index.html#static-variable-subscriptionWrapper">subscriptionWrapper</a></span></li>
-</ul>
-</div>
-
-
-
-
 </nav>
 
 <div class="content" data-ice="content"><h1>Test</h1>
@@ -118,7 +103,7 @@
   <td data-ice="testDescription" style="padding-left: 10px"><span class="toggle closed"></span><span><a href="test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber23"><p>PollerService</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target">-</td>
-  <td data-ice="testCount">22</td>
+  <td data-ice="testCount">21</td>
 </tr>
 
 
@@ -160,23 +145,17 @@
   <td data-ice="testDescription" style="padding-left: 20px"><span class="toggle closed"></span><span><a href="test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber51"><p>#stop</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target">-</td>
-  <td data-ice="testCount">3</td>
+  <td data-ice="testCount">2</td>
 </tr>
 
 <tr data-ice="testIt" style="display: none;" data-test-depth="2">
-  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber69"><p>marks service as stopped</p>
+  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber67"><p>marks service as stopped</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target">-</td>
   <td></td>
 </tr>
 <tr data-ice="testIt" style="display: none;" data-test-depth="2">
-  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber72"><p>cancels loop</p>
-</a></span></td>
-  <td data-ice="testTarget" class="test-target">-</td>
-  <td></td>
-</tr>
-<tr data-ice="testIt" style="display: none;" data-test-depth="2">
-  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber75"><p>deletes loop</p>
+  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber70"><p>deletes loop</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target">-</td>
   <td></td>
@@ -184,26 +163,26 @@
 
 
 <tr class="test-describe" data-ice="testDescribe" style="display: none;" data-test-depth="1">
-  <td data-ice="testDescription" style="padding-left: 20px"><span class="toggle closed"></span><span><a href="test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber79"><p>#poll</p>
+  <td data-ice="testDescription" style="padding-left: 20px"><span class="toggle closed"></span><span><a href="test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber74"><p>#poll</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target">-</td>
   <td data-ice="testCount">3</td>
 </tr>
 
 <tr data-ice="testIt" style="display: none;" data-test-depth="2">
-  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber108"><p>loads all subscriptions</p>
+  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber103"><p>loads all subscriptions</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target">-</td>
   <td></td>
 </tr>
 <tr data-ice="testIt" style="display: none;" data-test-depth="2">
-  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber112"><p>polls each subscription</p>
+  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber107"><p>polls each subscription</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target">-</td>
   <td></td>
 </tr>
 <tr data-ice="testIt" style="display: none;" data-test-depth="2">
-  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber117"><p>loops</p>
+  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber112"><p>loops</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target">-</td>
   <td></td>
@@ -211,26 +190,26 @@
 
 
 <tr class="test-describe" data-ice="testDescribe" style="display: none;" data-test-depth="1">
-  <td data-ice="testDescription" style="padding-left: 20px"><span class="toggle closed"></span><span><a href="test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber121"><p>#loadSubscriptions</p>
+  <td data-ice="testDescription" style="padding-left: 20px"><span class="toggle closed"></span><span><a href="test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber116"><p>#loadSubscriptions</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target">-</td>
   <td data-ice="testCount">3</td>
 </tr>
 
 <tr data-ice="testIt" style="display: none;" data-test-depth="2">
-  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber147"><p>loads all subscriptions from the database</p>
+  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber142"><p>loads all subscriptions from the database</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target">-</td>
   <td></td>
 </tr>
 <tr data-ice="testIt" style="display: none;" data-test-depth="2">
-  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber179"><p>should populate application</p>
+  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber174"><p>should populate application</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target">-</td>
   <td></td>
 </tr>
 <tr data-ice="testIt" style="display: none;" data-test-depth="2">
-  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber183"><p>returns subscriptions</p>
+  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber178"><p>returns subscriptions</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target">-</td>
   <td></td>
@@ -238,44 +217,44 @@
 
 
 <tr class="test-describe" data-ice="testDescribe" style="display: none;" data-test-depth="1">
-  <td data-ice="testDescription" style="padding-left: 20px"><span class="toggle closed"></span><span><a href="test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber187"><p>#pollSubscriptions</p>
+  <td data-ice="testDescription" style="padding-left: 20px"><span class="toggle closed"></span><span><a href="test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber182"><p>#pollSubscriptions</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target">-</td>
   <td data-ice="testCount">6</td>
 </tr>
 
 <tr data-ice="testIt" style="display: none;" data-test-depth="2">
-  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber224"><p>loads connector settings</p>
+  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber219"><p>loads connector settings</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target">-</td>
   <td></td>
 </tr>
 <tr data-ice="testIt" style="display: none;" data-test-depth="2">
-  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber232"><p>loads buckets that have correct authentication tokens</p>
+  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber227"><p>loads buckets that have correct authentication tokens</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target">-</td>
   <td></td>
 </tr>
 <tr data-ice="testIt" style="display: none;" data-test-depth="2">
-  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber242"><p>polls every bucket</p>
+  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber237"><p>polls every bucket</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target">-</td>
   <td></td>
 </tr>
 <tr data-ice="testIt" style="display: none;" data-test-depth="2">
-  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber247"><p>polls without a bucket</p>
+  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber242"><p>polls without a bucket</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target">-</td>
   <td></td>
 </tr>
 <tr data-ice="testIt" style="display: none;" data-test-depth="2">
-  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber251"><p>polls the correct number of times</p>
+  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber246"><p>polls the correct number of times</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target">-</td>
   <td></td>
 </tr>
 <tr data-ice="testIt" style="display: none;" data-test-depth="2">
-  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber255"><p>saves the subscription</p>
+  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber250"><p>saves the subscription</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target">-</td>
   <td></td>
@@ -283,20 +262,20 @@
 
 
 <tr class="test-describe" data-ice="testDescribe" style="display: none;" data-test-depth="1">
-  <td data-ice="testDescription" style="padding-left: 20px"><span class="toggle closed"></span><span><a href="test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber260"><p>#pollContext</p>
+  <td data-ice="testDescription" style="padding-left: 20px"><span class="toggle closed"></span><span><a href="test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber255"><p>#pollContext</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target">-</td>
   <td data-ice="testCount">2</td>
 </tr>
 
 <tr data-ice="testIt" style="display: none;" data-test-depth="2">
-  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber291"><p>calls poller for connector</p>
+  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber286"><p>calls poller for connector</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target">-</td>
   <td></td>
 </tr>
 <tr data-ice="testIt" style="display: none;" data-test-depth="2">
-  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber295"><p>sends a raise event callback</p>
+  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber290"><p>sends a raise event callback</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target">-</td>
   <td></td>
@@ -304,14 +283,14 @@
 
 
 <tr class="test-describe" data-ice="testDescribe" style="display: none;" data-test-depth="1">
-  <td data-ice="testDescription" style="padding-left: 20px"><span class="toggle closed"></span><span><a href="test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber304"><p>#raiseEvent</p>
+  <td data-ice="testDescription" style="padding-left: 20px"><span class="toggle closed"></span><span><a href="test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber299"><p>#raiseEvent</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target">-</td>
   <td data-ice="testCount">1</td>
 </tr>
 
 <tr data-ice="testIt" style="display: none;" data-test-depth="2">
-  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber324"><p>raises event</p>
+  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/tests/unit_tests/poller_service_tests.js.html#lineNumber319"><p>raises event</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target">-</td>
   <td></td>
@@ -388,7 +367,7 @@
 </div>
 
 <footer class="footer">
-  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(0.1.4)</span></a>
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(0.4.6)</span></a>
 </footer>
 
 <script src="script/search_index.js"></script>
