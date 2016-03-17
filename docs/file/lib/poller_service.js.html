@@ -61,8 +61,13 @@ from &apos;@hoist/connector-pipeline&apos;;
 import EventsPipeline from &apos;@hoist/events-pipeline&apos;;
 import throat from &apos;throat&apos;;
 import moment from &apos;moment&apos;;
+import {
+  isFunction
+} from &apos;lodash&apos;;
 
-Bluebird.config({cancellation:true});
+Bluebird.config({
+  cancellation: true
+});
 
 class PollerService {
   constructor() {
@@ -342,6 +347,9 @@ class PollerService {
         }, &apos;loading poller&apos;);
 
         var pollerMethod = require(pollerPath);
+        if (pollerMethod.default &amp;&amp; isFunction(pollerMethod.default)) {
+          pollerMethod = pollerMethod.default;
+        }
         var pollContext = {
           settings: context.connectorSettings.settings,
           connectorKey: context.connectorSettings.key,
