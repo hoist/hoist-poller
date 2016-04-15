@@ -8,7 +8,9 @@
       "connectors": "./tests/fixtures/test_connectors"
     },
     "mongo": {
-      "db": "mongodb://localhost/hoist-default"
+      "core": {
+        "connectionString": "mongodb://localhost/hoist-test"
+      }
     },
     "log": {
       "hub": false
