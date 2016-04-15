@@ -17,13 +17,10 @@ checkout:
     - find . -exec touch -t 201401010000 {} \;
     - for x in $(git ls-tree --full-tree --name-only -r HEAD); do touch -t $(date -d "$(git log -1 --format=%ci "${x}")" +%y%m%d%H%M.%S) "${x}"; done
 dependencies:
-  cache_directories:
-    - "~/docker"
   override:
-    - mkdir -p ~/docker
-    - if [[ -e ~/docker/poller.tar ]]; then docker load -i ~/docker/poller.tar; fi
+    - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS/
+    - docker pull hoist/poller:${CIRCLE_BRANCH//feature\//}; true;
     - docker build -t hoist/poller:${CIRCLE_BRANCH//feature\//} .
-    - docker save "hoist/poller" > ~/docker/poller.tar
 test:
   override:
     - docker kill mongodb; true;
@@ -48,8 +45,7 @@ deployment:
     branch: [master,/feature\/.*/]
     owner: hoist
     commands:
-      - echo ${DOCKER_CONFIG} > .dockercfg
-      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS/
       - docker push hoist/poller:${CIRCLE_BRANCH//feature\//}
 notify:
   webhooks:
