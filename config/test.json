@@ -5,7 +5,7 @@
     },
     "mongo": {
       "core": {
-        "connectionString": "mongodb://rabbitmq/hoist-test"
+        "connectionString": "mongodb://db/hoist-test"
       }
     },
     "log": {
