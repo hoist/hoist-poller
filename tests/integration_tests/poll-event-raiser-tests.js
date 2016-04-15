@@ -23,7 +23,7 @@ describe('PollEventRaiser', function () {
     let subscription2 = {
 
     };
-    
+
   });
   describe('#loadPendingSubscriptions', () => {
     let baseSubscription = {
@@ -37,18 +37,22 @@ describe('PollEventRaiser', function () {
     let subscriptionWithNextPollInPast = baseSubscription;
     let subscriptionWithoutNextPollDate = Object.assign({}, baseSubscription, {
       _id: 's2',
+      applicaiton:'test-app2',
       nextPoll: null
     });
     let subscriptionWithNextPollInFuture = Object.assign({}, baseSubscription, {
       _id: 's3',
+      applicaiton:'test-app3',
       nextPoll: moment.utc().add(5, 'minutes')
     });
     let subscriptionWithNextPollInPastButActive = Object.assign({}, baseSubscription, {
       _id: 's4',
+      applicaiton:'test-app4',
       active: true
     });
     let subscriptionActiveButModifiedLapsed = Object.assign({}, baseSubscription, {
       _id: 's5',
+      applicaiton:'test-app5',
       active: true,
       updatedAt: moment.utc().subtract(32, 'minutes'),
       createdAt: moment.utc().subtract(1, 'day')
