@@ -45,7 +45,6 @@ deployment:
     branch: [master,/feature\/.*/]
     owner: hoist
     commands:
-      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS/
       - docker push hoist/poller:${CIRCLE_BRANCH//feature\//}
 notify:
   webhooks:
