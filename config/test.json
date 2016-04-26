@@ -1,14 +1,12 @@
 {
   "Hoist": {
-    "executor": {
-      "timeout": "1000",
-      "root": "/Users/amelia/Documents/executor/tests/fixtures"
-    },
     "filePaths": {
       "connectors": "./tests/fixtures/test_connectors"
     },
     "mongo": {
-      "db": "mongodb://localhost/hoist-default"
+      "core": {
+        "connectionString": "mongodb://db/hoist-test"
+      }
     },
     "log": {
       "hub": false
