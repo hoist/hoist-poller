@@ -1,6 +1,7 @@
 import moment from 'moment';
 import {
-  Subscription
+  Subscription,
+  ConnectorSetting
 } from '@hoist/model';
 import '../fixtures/db';
 import {
@@ -25,6 +26,88 @@ describe('PollEventRaiser', function () {
     };
 
   });
+  describe('#upsertMissingSubscriptions', () => {
+    let subscriptionSetupFully = new Subscription({
+      application: 'test-app',
+      connector: 'test-connector',
+      environment: 'live',
+      active: false,
+      endpoints: ['event1', 'event2'],
+      nextPoll: moment.utc().subtract('4', 'minutes')
+    });
+    let connectorSetupFully = new ConnectorSetting({
+      application: 'test-app',
+      key: 'test-connector',
+      name: 'connector-1',
+      environment: 'live',
+      subscribedEvents: ['event1', 'event2']
+    });
+    let subscriptionWithDifferentEndpoints = new Subscription({
+      application: 'test-app',
+      connector: 'test-connector2',
+      environment: 'live',
+      active: false,
+      endpoints: ['event2'],
+      nextPoll: moment.utc().subtract('4', 'minutes')
+    });
+    let connectorWithDifferentEndpoints = new ConnectorSetting({
+      application: 'test-app',
+      key: 'test-connector2',
+      name: 'connector-2',
+      environment: 'live',
+      subscribedEvents: ['event1', 'event3']
+    });
+    let connectorWithoutSubscription = new ConnectorSetting({
+      application: 'test-app',
+      key: 'test-connector3',
+      name: 'connector-3',
+      environment: 'live',
+      subscribedEvents: ['event4', 'event2']
+    });
+    before(() => {
+      return Promise.all([
+        subscriptionSetupFully.saveAsync(),
+        connectorSetupFully.saveAsync(),
+        subscriptionWithDifferentEndpoints.saveAsync(),
+        connectorWithDifferentEndpoints.saveAsync(),
+        connectorWithoutSubscription.saveAsync()
+      ]).then(() => {
+        return _eventRaiser.upsertMissingSubscriptions();
+      });
+    })
+    it('should leave connector settings with matching endpoints alone', () => {
+      return Subscription.findOneAsync({
+        _id: subscriptionSetupFully._id
+      }).then((subscription) => {
+        console.log(subscription);
+        return expect(subscription.nextPoll).to.eql(subscriptionSetupFully.nextPoll);
+      });
+    });
+    it('should create missing subscription objects', () => {
+      return Subscription.findOneAsync({
+        connector: 'test-connector3',
+        application: 'test-app',
+        environment: 'live'
+      }).then((subscription) => {
+        return expect(subscription.endpoints).to.eql(['event4', 'event2']) &&
+          expect(subscription.nextPoll).to.eql(null);
+      })
+    });
+    it('should update subscriptions that have missmatched events', () => {
+      return Subscription.findOneAsync({
+          _id: subscriptionWithDifferentEndpoints._id
+        })
+        .then((subscription) => {
+          return expect(subscription.endpoints).to.eql(connectorWithDifferentEndpoints.subscribedEvents) &&
+            expect(subscription.nextPoll).to.eql(null);
+        });
+    })
+    after(() => {
+      return Subscription.removeAsync({}).then(() => {
+        return ConnectorSetting.removeAsync({});
+      });
+    });
+  });
   describe('#loadPendingSubscriptions', () => {
     let baseSubscription = {
       _id: 's1',
@@ -37,22 +120,22 @@ describe('PollEventRaiser', function () {
     let subscriptionWithNextPollInPast = baseSubscription;
     let subscriptionWithoutNextPollDate = Object.assign({}, baseSubscription, {
       _id: 's2',
-      application:'test-app2',
+      application: 'test-app2',
       nextPoll: null
     });
     let subscriptionWithNextPollInFuture = Object.assign({}, baseSubscription, {
       _id: 's3',
-      application:'test-app3',
+      application: 'test-app3',
       nextPoll: moment.utc().add(5, 'minutes')
     });
     let subscriptionWithNextPollInPastButActive = Object.assign({}, baseSubscription, {
       _id: 's4',
-      application:'test-app4',
+      application: 'test-app4',
       active: true
     });
     let subscriptionActiveButModifiedLapsed = Object.assign({}, baseSubscription, {
       _id: 's5',
-      application:'test-app5',
+      application: 'test-app5',
       active: true,
       updatedAt: moment.utc().subtract(32, 'minutes'),
       createdAt: moment.utc().subtract(1, 'day')
@@ -106,7 +189,7 @@ describe('PollEventRaiser', function () {
       });
     })
     after(() => {
-      return Promise.resolve(Subscription.remove({}));
+      return Promise.resolve(Subscription.removeAsync({}));
     });
   });
 });

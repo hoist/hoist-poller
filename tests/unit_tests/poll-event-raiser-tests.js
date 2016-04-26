@@ -44,6 +44,7 @@ describe('PollEventRaiser', () => {
       _id: 1
     }];
     before(() => {
+      sinon.stub(pollEventRaiser, 'upsertMissingSubscriptions').returns(Promise.resolve());
       sinon.stub(pollEventRaiser, 'loadPendingSubscriptions', () => {
         return Promise.resolve(subscriptions);
       });
