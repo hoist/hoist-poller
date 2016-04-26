@@ -45,7 +45,6 @@ describe('PollEventRaiser', () => {
     }];
     before(() => {
       sinon.stub(pollEventRaiser, 'loadPendingSubscriptions', () => {
-        console.log('here');
         return Promise.resolve(subscriptions);
       });
       sinon.stub(pollEventRaiser, 'raiseSubscriptions').returns(Promise.delay(100));
@@ -61,10 +60,8 @@ describe('PollEventRaiser', () => {
       return expect(pollEventRaiser.raiseSubscriptions).to.have.been.calledWith(subscriptions);
     });
     after(() => {
-      console.log('stopping');
       return pollEventRaiser.stop()
         .then(() => {
-          console.log('restoring');
           pollEventRaiser.loadPendingSubscriptions.restore();
           pollEventRaiser.raiseSubscriptions.restore();
         });
